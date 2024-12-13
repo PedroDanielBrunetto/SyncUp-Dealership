@@ -32,7 +32,7 @@ const Header = () => {
         isScrolled ? "shadow-lg bg-[#FBFBFB]" : ""
       }`}
     >
-      <div className="p-6 lg:p-2 xl:w-[260px] lg:[220px] w-[180px]">
+      <div className="p-6 lg:p-2 xl:w-[180px] w-[160px]">
         <Image src={logo} alt="Logo" />
       </div>
       <button

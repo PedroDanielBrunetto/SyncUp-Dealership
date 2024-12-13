@@ -1,5 +1,6 @@
 import Header from "../_components/(home)/Header";
 import Models from "../_components/(home)/Models";
+import SpecificModel from "../_components/(home)/SpecificModelForm";
 import Start from "../_components/(home)/Start";
 
 export default function Home() {
@@ -13,6 +14,9 @@ export default function Home() {
       </section>
       <section id="models">
         <Models />
+      </section>
+      <section id="specific">
+        <SpecificModel />
       </section>
     </main>
   );
