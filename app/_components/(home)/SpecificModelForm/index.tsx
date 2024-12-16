@@ -29,18 +29,29 @@ const SpecificModel = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!formData.agree) {
-      setMessage("Você deve concordar com a Política de Privacidade.");
-      return;
-    }
-
     try {
+      if (!formData.agree) {
+        setMessage("Você deve concordar com a Política de Privacidade.");
+        return;
+      }
+
       const response = await insertSpecificModelAsync(formData);
 
       const result = await response;
       setMessage(result);
     } catch (error) {
       setMessage("Desculpe, algo deu errado. Tente novamente mais tarde.");
+    } finally {
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        model: "",
+        agree: false,
+      });
+      setTimeout(() => {
+        setMessage("");
+      }, 2000);
     }
   };
 
@@ -99,7 +110,7 @@ const SpecificModel = () => {
             <Switch checked={formData.agree} onCheckedChange={handleSwitch} />
             <span className="text-gray-900 text-xs">
               De acordo com a LGPD, concordo em fornecer os dados acima para que
-              a Touring Cars entre em contato comigo para apresentar serviços.
+              a concessionária entre em contato comigo para apresentar serviços.
               Seu nome, e-mail e telefone serão usados de acordo com a nossa
               Política de Privacidade.
             </span>

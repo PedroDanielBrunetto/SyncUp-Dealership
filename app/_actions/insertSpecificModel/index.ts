@@ -24,7 +24,7 @@ export const insertSpecificModelAsync = async (data: IReq): Promise<string> => {
 
     return "Enviado com sucesso! Entraremos em contato.";
   } catch (error) {
-    console.error("Erro ao inserir no banco:", error); // Log do erro
+    console.error("Erro ao inserir no banco:", error);
     return "Desculpe, algo deu errado. Ligue para nosso número.";
   }
 };
