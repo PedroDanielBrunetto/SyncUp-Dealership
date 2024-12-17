@@ -17,10 +17,15 @@ const SpecificModel = () => {
   });
 
   const [message, setMessage] = useState("");
+  const [load, setLoad] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handlePhoneChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, phone: value }));
   };
 
   const handleSwitch = () => {
@@ -30,18 +35,32 @@ const SpecificModel = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      setLoad(true);
+
       if (!formData.agree) {
         setMessage("Você deve concordar com a Política de Privacidade.");
+        return;
+      }
+
+      if (
+        !formData.email ||
+        !formData.phone ||
+        !formData.name ||
+        !formData.model
+      ) {
+        setMessage("Preencha todos os campos.");
         return;
       }
 
       const response = await insertSpecificModelAsync(formData);
 
       const result = await response;
+
       setMessage(result);
     } catch (error) {
       setMessage("Desculpe, algo deu errado. Tente novamente mais tarde.");
     } finally {
+      setLoad(false);
       setFormData({
         name: "",
         phone: "",
@@ -99,11 +118,28 @@ const SpecificModel = () => {
               placeholder="Celular"
               id="phone"
               value={formData.phone}
-              onChange={handleChange}
+              onChange={(e) => {
+                const value = e.target.value.replace(/\D/g, "");
+                if (value.length <= 12) {
+                  handlePhoneChange(value);
+                }
+              }}
               className="border-gray-400 W-44"
             />
-            <Button type="submit" className="w-44">
-              Enviar <ArrowRight />
+            <Button
+              type="submit"
+              className="w-44 flex items-center justify-center"
+              disabled={load}
+            >
+              {load ? (
+                <>
+                  <span className="mr-2 loader"></span> Enviando
+                </>
+              ) : (
+                <>
+                  Enviar <ArrowRight className="ml-2" />
+                </>
+              )}
             </Button>
           </form>
           <div className="flex gap-2 items-center">

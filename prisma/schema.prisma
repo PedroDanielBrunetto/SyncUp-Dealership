@@ -8,9 +8,10 @@ datasource db {
 }
 
 model ModeloEspecifico_Cliente {
-  id     String @id @default(uuid())
-  nome   String @db.VarChar(255)
-  modelo String @db.VarChar(255)
-  email  String
-  numero String @db.VarChar(12)
+  id         String   @id @default(uuid())
+  nome       String   @db.VarChar(255)
+  modelo     String   @db.VarChar(255)
+  email      String
+  numero     String   @db.VarChar(12)
+  created_at DateTime @default(now())
 }
