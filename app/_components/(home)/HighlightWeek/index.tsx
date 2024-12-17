@@ -19,22 +19,22 @@ const HighlightWeek = () => {
         </div>
 
         <div
-          className="relative bg-cover bg-center text-white p-8 rounded-lg lg:w-2/5 lg:h-[460px]"
+          className="bg-cover bg-center text-white p-8 rounded-lg lg:w-2/5 lg:h-[460px]"
           style={{
             backgroundImage: `url(/home/highlight/textHighlight.png)`,
           }}
         >
-          <h2 className="lg:text-3xl text-xl font-bold mb-4 text-center">
+          <h2 className="xl:text-3xl lg:text-xl text-lg font-bold mb-4 text-center">
             Novo Porsche Macan GTS.
-            {/* Máximo de 30 Caracteres */}
+            {/* Máximo de 25 Caracteres */}
           </h2>
-          <p className="lg:text-xl text-base text-justify">
+          <p className="xl:text-lg lg:text-base text-sm text-justify">
             Novo Macan GTS: destaque nos aspectos em que os outros se perdem na
             multidão. Jovem, dinâmico e urbano, com equipamentos de série
             completos, características de design exclusivas do modelo e, é
             claro, o tradicional desempenho Porsche. Com motor potente e direção
             precisa, oferece uma experiência de condução esportiva incomparável.
-            {/* Máximo de 380 Caracteres */}
+            {/* Máximo de 280 Caracteres */}
           </p>
         </div>
       </div>

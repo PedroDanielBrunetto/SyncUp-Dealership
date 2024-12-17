@@ -1,3 +1,4 @@
+import Brands from "../_components/(home)/Brands";
 import Header from "../_components/(home)/Header";
 import HighlightWeek from "../_components/(home)/HighlightWeek";
 import Models from "../_components/(home)/Models";
@@ -21,6 +22,9 @@ export default function Home() {
       </section>
       <section id="highlight">
         <HighlightWeek />
+      </section>
+      <section id="brands">
+        <Brands />
       </section>
     </main>
   );
