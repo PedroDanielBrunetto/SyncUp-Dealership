@@ -7,7 +7,7 @@ import hybrid from "@/public/home/models/Hybrid.png";
 
 const Models = () => {
   return (
-    <div className="p-main flex flex-col gap-6 p-4 ">
+    <div className="p-main flex flex-col gap-6 p-4 pt-24">
       <div>
         <h1 className="font-semibold text-3xl text-center lg:text-start">Modelos</h1>
       </div>

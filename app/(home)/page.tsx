@@ -1,9 +1,10 @@
 import Brands from "../_components/(home)/Brands";
-import Header from "../_components/(home)/Header";
+import Header from "../_components/Header";
 import HighlightWeek from "../_components/(home)/HighlightWeek";
 import Models from "../_components/(home)/Models";
-import SpecificModel from "../_components/(home)/SpecificModelForm";
+import SpecificModel from "../_components/actions/SpecificModelForm";
 import Start from "../_components/(home)/Start";
+import Footer from "../_components/Footer";
 
 export default function Home() {
   return (
@@ -26,6 +27,9 @@ export default function Home() {
       <section id="brands">
         <Brands />
       </section>
+      <footer className="w-full">
+        <Footer />
+      </footer>
     </main>
   );
 }
