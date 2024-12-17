@@ -13,11 +13,13 @@ model ModeloEspecifico_Cliente {
   modelo     String   @db.VarChar(255)
   email      String
   numero     String   @db.VarChar(12)
+  status     Boolean  @default(false)
   created_at DateTime @default(now())
 }
 
 model ContatePorEmail_Cliente {
   id         String   @id @default(uuid())
   email      String   @unique
+  status     Boolean  @default(false)
   created_at DateTime @default(now())
 }
