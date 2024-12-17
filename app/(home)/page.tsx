@@ -1,4 +1,5 @@
 import Header from "../_components/(home)/Header";
+import HighlightWeek from "../_components/(home)/HighlightWeek";
 import Models from "../_components/(home)/Models";
 import SpecificModel from "../_components/(home)/SpecificModelForm";
 import Start from "../_components/(home)/Start";
@@ -17,6 +18,9 @@ export default function Home() {
       </section>
       <section id="specific">
         <SpecificModel />
+      </section>
+      <section id="highlight">
+        <HighlightWeek />
       </section>
     </main>
   );
