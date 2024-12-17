@@ -61,7 +61,7 @@ const Footer = () => {
       </div>
       <p className="text-gray-400 text-sm flex justify-center gap-1 items-center">
         <Copyright className="text-gray-400" size={14} />
-        2025 Todos os direitos reservados.
+        Todos os direitos reservados.
       </p>
     </footer>
   );
