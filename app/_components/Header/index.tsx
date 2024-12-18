@@ -71,7 +71,7 @@ const Header = () => {
         <ul className="flex flex-col lg:flex-row gap-4 lg:gap-8 p-4 lg:p-0">
           <li>
             <a
-              href="#home"
+              href="/#home"
               className="block lg:inline hover:font-semibold text-main text-lg"
             >
               Início
@@ -79,7 +79,7 @@ const Header = () => {
           </li>
           <li>
             <a
-              href="#"
+              href="/sobre"
               className="block lg:inline hover:font-semibold text-main text-lg"
             >
               Sobre
