@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import carImage from "@/public/carros/carroCapa.png";
+import carImage from "@/public/carros/porsche/carroCapa.png";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ChevronDown } from "lucide-react";
 
