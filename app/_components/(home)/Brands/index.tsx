@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import chevrolet from "@/public/home/brands/chevrolet.jpg";
 import fiat from "@/public/home/brands/Fiat.png";
