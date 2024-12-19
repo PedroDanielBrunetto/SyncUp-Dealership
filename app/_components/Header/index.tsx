@@ -87,7 +87,7 @@ const Header = () => {
           </li>
           <li>
             <a
-              href="#"
+              href="/contato"
               className="block lg:inline hover:font-semibold text-main text-lg"
             >
               Contato
