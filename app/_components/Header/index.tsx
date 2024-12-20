@@ -103,7 +103,7 @@ const Header = () => {
           </li>
           <li>
             <a
-              href="#"
+              href="/anunciar"
               className="block lg:inline hover:font-semibold text-main text-lg"
             >
               Anunciar
