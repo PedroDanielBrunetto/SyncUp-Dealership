@@ -95,7 +95,7 @@ const Header = () => {
           </li>
           <li>
             <a
-              href="#"
+              href="/estoque"
               className="block lg:inline hover:font-semibold text-main text-lg"
             >
               Estoque
