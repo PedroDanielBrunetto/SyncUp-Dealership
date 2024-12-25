@@ -1,3 +1,5 @@
+"use server";
+
 import { AppSidebar } from "@/components/app-sidebar";
 import {
   Breadcrumb,
@@ -13,676 +15,34 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
 import AdminInviteUsuariosForm from "./_components/InviteUsuariosForm";
 import CardUsers from "./_components/CardUsers";
 
-const mock = [
-  {
-    id: "user_2qd2HAeI7Y1BkrHqHFvBWaVz2r1",
-    object: "user",
-    username: null,
-    first_name: "Pedro",
-    last_name: "Daniel",
-    image_url:
-      "https://img.clerk.com/eyJ0eXBlIjoiZGVmYXVsdCIsImlpZCI6Imluc18ycWN6OTFNNGJsM0RrYTZPUkdRak95b0NxaVEiLCJyaWQiOiJ1c2VyXzJxZDJIQWVJN1kxQmtySHFIRnZCV2FWejJycyIsImluaXRpYWxzIjoiUEQifQ",
-    has_image: false,
-    primary_email_address_id: "idn_2qd2Dj5bCvQpsYav3x1EIMsQZ51",
-    primary_phone_number_id: "idn_2qd2DewgQvIThmg3fhfIQQAdfsd",
-    primary_web3_wallet_id: null,
-    password_enabled: true,
-    two_factor_enabled: true,
-    totp_enabled: false,
-    backup_code_enabled: false,
-    email_addresses: [
-      {
-        id: "idn_2qd2Dj5bCvQpsYav3x1EIMsQZ51",
-        object: "email_address",
-        email_address: "pedromagro1995@gmail.com",
-        reserved: false,
-        verification: {
-          status: "verified",
-          strategy: "ticket",
-          attempts: null,
-          expire_at: null,
-        },
-        linked_to: [],
-        matches_sso_connection: false,
-        created_at: 1734978013941,
-        updated_at: 1734978041034,
-      },
-      {
-        id: "idn_2qd2Dj5bCvQpsYav3x1EIMsQZ52",
-        object: "email_address",
-        email_address: "pedrodanielbm@gmail.com",
-        reserved: false,
-        verification: {
-          status: "verified",
-          strategy: "ticket",
-          attempts: null,
-          expire_at: null,
-        },
-        linked_to: [],
-        matches_sso_connection: false,
-        created_at: 1734978013941,
-        updated_at: 1734978041034,
-      },
-    ],
-    phone_numbers: [
-      {
-        id: "idn_2qd2DewgQvIThmg3fhfIQQAdfsd",
-        object: "phone_number",
-        phone_number: "+5513992043766",
-        reserved_for_second_factor: true,
-        default_second_factor: true,
-        reserved: false,
-        verification: {
-          status: "verified",
-          strategy: "phone_code",
-          attempts: 1,
-          expire_at: 1734978614967,
-        },
-        linked_to: [],
-        backup_codes: null,
-        created_at: 1734978013785,
-        updated_at: 1734978315306,
-      },
-    ],
-    web3_wallets: [],
-    passkeys: [],
-    external_accounts: [],
-    saml_accounts: [],
-    enterprise_accounts: [],
-    public_metadata: {},
-    private_metadata: {},
-    unsafe_metadata: {},
-    external_id: null,
-    last_sign_in_at: 1735006821281,
-    banned: false,
-    locked: false,
-    lockout_expires_in_seconds: null,
-    verification_attempts_remaining: 100,
-    created_at: 1734978040993,
-    updated_at: 1735007254448,
-    delete_self_enabled: true,
-    create_organization_enabled: true,
-    last_active_at: 1734978040990,
-    mfa_enabled_at: null,
-    mfa_disabled_at: null,
-    legal_accepted_at: null,
-    profile_image_url: "https://www.gravatar.com/avatar?d=mp",
-  },
-  {
-    id: "user_2qd2HAeI7Y1BkrHqHFvBWaVz2r2",
-    object: "user",
-    username: null,
-    first_name: "Pedro",
-    last_name: "Daniel",
-    image_url:
-      "https://img.clerk.com/eyJ0eXBlIjoiZGVmYXVsdCIsImlpZCI6Imluc18ycWN6OTFNNGJsM0RrYTZPUkdRak95b0NxaVEiLCJyaWQiOiJ1c2VyXzJxZDJIQWVJN1kxQmtySHFIRnZCV2FWejJycyIsImluaXRpYWxzIjoiUEQifQ",
-    has_image: false,
-    primary_email_address_id: "idn_2qd2Dj5bCvQpsYav3x1EIMsQZ51",
-    primary_phone_number_id: "idn_2qd2DewgQvIThmg3fhfIQQAdfsd",
-    primary_web3_wallet_id: null,
-    password_enabled: true,
-    two_factor_enabled: true,
-    totp_enabled: false,
-    backup_code_enabled: false,
-    email_addresses: [
-      {
-        id: "idn_2qd2Dj5bCvQpsYav3x1EIMsQZ51",
-        object: "email_address",
-        email_address: "pedromagro1995@gmail.com",
-        reserved: false,
-        verification: {
-          status: "verified",
-          strategy: "ticket",
-          attempts: null,
-          expire_at: null,
-        },
-        linked_to: [],
-        matches_sso_connection: false,
-        created_at: 1734978013941,
-        updated_at: 1734978041034,
-      },
-    ],
-    phone_numbers: [
-      {
-        id: "idn_2qd2DewgQvIThmg3fhfIQQAdfsd",
-        object: "phone_number",
-        phone_number: "+5513992043766",
-        reserved_for_second_factor: true,
-        default_second_factor: true,
-        reserved: false,
-        verification: {
-          status: "verified",
-          strategy: "phone_code",
-          attempts: 1,
-          expire_at: 1734978614967,
-        },
-        linked_to: [],
-        backup_codes: null,
-        created_at: 1734978013785,
-        updated_at: 1734978315306,
-      },
-    ],
-    web3_wallets: [],
-    passkeys: [],
-    external_accounts: [],
-    saml_accounts: [],
-    enterprise_accounts: [],
-    public_metadata: {},
-    private_metadata: {},
-    unsafe_metadata: {},
-    external_id: null,
-    last_sign_in_at: 1735006821281,
-    banned: false,
-    locked: false,
-    lockout_expires_in_seconds: null,
-    verification_attempts_remaining: 100,
-    created_at: 1734978040993,
-    updated_at: 1735007254448,
-    delete_self_enabled: true,
-    create_organization_enabled: true,
-    last_active_at: 1734978040990,
-    mfa_enabled_at: null,
-    mfa_disabled_at: null,
-    legal_accepted_at: null,
-    profile_image_url: "https://www.gravatar.com/avatar?d=mp",
-  },
-  {
-    id: "user_2qd2HAeI7Y1BkrHqHFvBWaVz2r3",
-    object: "user",
-    username: null,
-    first_name: "Pedro",
-    last_name: "Daniel",
-    image_url:
-      "https://img.clerk.com/eyJ0eXBlIjoiZGVmYXVsdCIsImlpZCI6Imluc18ycWN6OTFNNGJsM0RrYTZPUkdRak95b0NxaVEiLCJyaWQiOiJ1c2VyXzJxZDJIQWVJN1kxQmtySHFIRnZCV2FWejJycyIsImluaXRpYWxzIjoiUEQifQ",
-    has_image: false,
-    primary_email_address_id: "idn_2qd2Dj5bCvQpsYav3x1EIMsQZ51",
-    primary_phone_number_id: "idn_2qd2DewgQvIThmg3fhfIQQAdfsd",
-    primary_web3_wallet_id: null,
-    password_enabled: true,
-    two_factor_enabled: true,
-    totp_enabled: false,
-    backup_code_enabled: false,
-    email_addresses: [
-      {
-        id: "idn_2qd2Dj5bCvQpsYav3x1EIMsQZ51",
-        object: "email_address",
-        email_address: "pedromagro1995@gmail.com",
-        reserved: false,
-        verification: {
-          status: "verified",
-          strategy: "ticket",
-          attempts: null,
-          expire_at: null,
-        },
-        linked_to: [],
-        matches_sso_connection: false,
-        created_at: 1734978013941,
-        updated_at: 1734978041034,
-      },
-    ],
-    phone_numbers: [
-      {
-        id: "idn_2qd2DewgQvIThmg3fhfIQQAdfsd",
-        object: "phone_number",
-        phone_number: "+5513992043766",
-        reserved_for_second_factor: true,
-        default_second_factor: true,
-        reserved: false,
-        verification: {
-          status: "verified",
-          strategy: "phone_code",
-          attempts: 1,
-          expire_at: 1734978614967,
-        },
-        linked_to: [],
-        backup_codes: null,
-        created_at: 1734978013785,
-        updated_at: 1734978315306,
-      },
-      {
-        id: "idn_2qd2DewgQvIThmg3fhfIQQAdfs2",
-        object: "phone_number",
-        phone_number: "+5513992043766",
-        reserved_for_second_factor: true,
-        default_second_factor: true,
-        reserved: false,
-        verification: {
-          status: "verified",
-          strategy: "phone_code",
-          attempts: 1,
-          expire_at: 1734978614967,
-        },
-        linked_to: [],
-        backup_codes: null,
-        created_at: 1734978013785,
-        updated_at: 1734978315306,
-      },
-    ],
-    web3_wallets: [],
-    passkeys: [],
-    external_accounts: [],
-    saml_accounts: [],
-    enterprise_accounts: [],
-    public_metadata: {},
-    private_metadata: {},
-    unsafe_metadata: {},
-    external_id: null,
-    last_sign_in_at: 1735006821281,
-    banned: false,
-    locked: false,
-    lockout_expires_in_seconds: null,
-    verification_attempts_remaining: 100,
-    created_at: 1734978040993,
-    updated_at: 1735007254448,
-    delete_self_enabled: true,
-    create_organization_enabled: true,
-    last_active_at: 1734978040990,
-    mfa_enabled_at: null,
-    mfa_disabled_at: null,
-    legal_accepted_at: null,
-    profile_image_url: "https://www.gravatar.com/avatar?d=mp",
-  },
-  {
-    id: "user_2qd2HAeI7Y1BkrHqHFvBWaVz2r4",
-    object: "user",
-    username: null,
-    first_name: "Pedro",
-    last_name: "Daniel",
-    image_url:
-      "https://img.clerk.com/eyJ0eXBlIjoiZGVmYXVsdCIsImlpZCI6Imluc18ycWN6OTFNNGJsM0RrYTZPUkdRak95b0NxaVEiLCJyaWQiOiJ1c2VyXzJxZDJIQWVJN1kxQmtySHFIRnZCV2FWejJycyIsImluaXRpYWxzIjoiUEQifQ",
-    has_image: false,
-    primary_email_address_id: "idn_2qd2Dj5bCvQpsYav3x1EIMsQZ51",
-    primary_phone_number_id: "idn_2qd2DewgQvIThmg3fhfIQQAdfsd",
-    primary_web3_wallet_id: null,
-    password_enabled: true,
-    two_factor_enabled: true,
-    totp_enabled: false,
-    backup_code_enabled: false,
-    email_addresses: [
-      {
-        id: "idn_2qd2Dj5bCvQpsYav3x1EIMsQZ51",
-        object: "email_address",
-        email_address: "pedromagro1995@gmail.com",
-        reserved: false,
-        verification: {
-          status: "verified",
-          strategy: "ticket",
-          attempts: null,
-          expire_at: null,
-        },
-        linked_to: [],
-        matches_sso_connection: false,
-        created_at: 1734978013941,
-        updated_at: 1734978041034,
-      },
-    ],
-    phone_numbers: [
-      {
-        id: "idn_2qd2DewgQvIThmg3fhfIQQAdfsd",
-        object: "phone_number",
-        phone_number: "+5513992043766",
-        reserved_for_second_factor: true,
-        default_second_factor: true,
-        reserved: false,
-        verification: {
-          status: "verified",
-          strategy: "phone_code",
-          attempts: 1,
-          expire_at: 1734978614967,
-        },
-        linked_to: [],
-        backup_codes: null,
-        created_at: 1734978013785,
-        updated_at: 1734978315306,
-      },
-    ],
-    web3_wallets: [],
-    passkeys: [],
-    external_accounts: [],
-    saml_accounts: [],
-    enterprise_accounts: [],
-    public_metadata: {},
-    private_metadata: {},
-    unsafe_metadata: {},
-    external_id: null,
-    last_sign_in_at: 1735006821281,
-    banned: false,
-    locked: false,
-    lockout_expires_in_seconds: null,
-    verification_attempts_remaining: 100,
-    created_at: 1734978040993,
-    updated_at: 1735007254448,
-    delete_self_enabled: true,
-    create_organization_enabled: true,
-    last_active_at: 1734978040990,
-    mfa_enabled_at: null,
-    mfa_disabled_at: null,
-    legal_accepted_at: null,
-    profile_image_url: "https://www.gravatar.com/avatar?d=mp",
-  },
-  {
-    id: "user_2qd2HAeI7Y1BkrHqHFvBWaVz2r5",
-    object: "user",
-    username: null,
-    first_name: "Pedro",
-    last_name: "Daniel",
-    image_url:
-      "https://img.clerk.com/eyJ0eXBlIjoiZGVmYXVsdCIsImlpZCI6Imluc18ycWN6OTFNNGJsM0RrYTZPUkdRak95b0NxaVEiLCJyaWQiOiJ1c2VyXzJxZDJIQWVJN1kxQmtySHFIRnZCV2FWejJycyIsImluaXRpYWxzIjoiUEQifQ",
-    has_image: false,
-    primary_email_address_id: "idn_2qd2Dj5bCvQpsYav3x1EIMsQZ51",
-    primary_phone_number_id: "idn_2qd2DewgQvIThmg3fhfIQQAdfsd",
-    primary_web3_wallet_id: null,
-    password_enabled: true,
-    two_factor_enabled: true,
-    totp_enabled: false,
-    backup_code_enabled: false,
-    email_addresses: [
-      {
-        id: "idn_2qd2Dj5bCvQpsYav3x1EIMsQZ51",
-        object: "email_address",
-        email_address: "pedromagro1995@gmail.com",
-        reserved: false,
-        verification: {
-          status: "verified",
-          strategy: "ticket",
-          attempts: null,
-          expire_at: null,
-        },
-        linked_to: [],
-        matches_sso_connection: false,
-        created_at: 1734978013941,
-        updated_at: 1734978041034,
-      },
-    ],
-    phone_numbers: [
-      {
-        id: "idn_2qd2DewgQvIThmg3fhfIQQAdfsd",
-        object: "phone_number",
-        phone_number: "+5513992043766",
-        reserved_for_second_factor: true,
-        default_second_factor: true,
-        reserved: false,
-        verification: {
-          status: "verified",
-          strategy: "phone_code",
-          attempts: 1,
-          expire_at: 1734978614967,
-        },
-        linked_to: [],
-        backup_codes: null,
-        created_at: 1734978013785,
-        updated_at: 1734978315306,
-      },
-    ],
-    web3_wallets: [],
-    passkeys: [],
-    external_accounts: [],
-    saml_accounts: [],
-    enterprise_accounts: [],
-    public_metadata: {},
-    private_metadata: {},
-    unsafe_metadata: {},
-    external_id: null,
-    last_sign_in_at: 1735006821281,
-    banned: false,
-    locked: false,
-    lockout_expires_in_seconds: null,
-    verification_attempts_remaining: 100,
-    created_at: 1734978040993,
-    updated_at: 1735007254448,
-    delete_self_enabled: true,
-    create_organization_enabled: true,
-    last_active_at: 1734978040990,
-    mfa_enabled_at: null,
-    mfa_disabled_at: null,
-    legal_accepted_at: null,
-    profile_image_url: "https://www.gravatar.com/avatar?d=mp",
-  },
-  {
-    id: "user_2qd2HAeI7Y1BkrHqHFvBWaVz2r6",
-    object: "user",
-    username: null,
-    first_name: "Pedro",
-    last_name: "Daniel",
-    image_url:
-      "https://img.clerk.com/eyJ0eXBlIjoiZGVmYXVsdCIsImlpZCI6Imluc18ycWN6OTFNNGJsM0RrYTZPUkdRak95b0NxaVEiLCJyaWQiOiJ1c2VyXzJxZDJIQWVJN1kxQmtySHFIRnZCV2FWejJycyIsImluaXRpYWxzIjoiUEQifQ",
-    has_image: false,
-    primary_email_address_id: "idn_2qd2Dj5bCvQpsYav3x1EIMsQZ51",
-    primary_phone_number_id: "idn_2qd2DewgQvIThmg3fhfIQQAdfsd",
-    primary_web3_wallet_id: null,
-    password_enabled: true,
-    two_factor_enabled: true,
-    totp_enabled: false,
-    backup_code_enabled: false,
-    email_addresses: [
-      {
-        id: "idn_2qd2Dj5bCvQpsYav3x1EIMsQZ51",
-        object: "email_address",
-        email_address: "pedromagro1995@gmail.com",
-        reserved: false,
-        verification: {
-          status: "verified",
-          strategy: "ticket",
-          attempts: null,
-          expire_at: null,
-        },
-        linked_to: [],
-        matches_sso_connection: false,
-        created_at: 1734978013941,
-        updated_at: 1734978041034,
-      },
-    ],
-    phone_numbers: [
-      {
-        id: "idn_2qd2DewgQvIThmg3fhfIQQAdfsd",
-        object: "phone_number",
-        phone_number: "+5513992043766",
-        reserved_for_second_factor: true,
-        default_second_factor: true,
-        reserved: false,
-        verification: {
-          status: "verified",
-          strategy: "phone_code",
-          attempts: 1,
-          expire_at: 1734978614967,
-        },
-        linked_to: [],
-        backup_codes: null,
-        created_at: 1734978013785,
-        updated_at: 1734978315306,
-      },
-    ],
-    web3_wallets: [],
-    passkeys: [],
-    external_accounts: [],
-    saml_accounts: [],
-    enterprise_accounts: [],
-    public_metadata: {},
-    private_metadata: {},
-    unsafe_metadata: {},
-    external_id: null,
-    last_sign_in_at: 1735006821281,
-    banned: false,
-    locked: false,
-    lockout_expires_in_seconds: null,
-    verification_attempts_remaining: 100,
-    created_at: 1734978040993,
-    updated_at: 1735007254448,
-    delete_self_enabled: true,
-    create_organization_enabled: true,
-    last_active_at: 1734978040990,
-    mfa_enabled_at: null,
-    mfa_disabled_at: null,
-    legal_accepted_at: null,
-    profile_image_url: "https://www.gravatar.com/avatar?d=mp",
-  },
-  {
-    id: "user_2qd2HAeI7Y1BkrHqHFvBWaVz2r7",
-    object: "user",
-    username: null,
-    first_name: "Pedro",
-    last_name: "Daniel",
-    image_url:
-      "https://img.clerk.com/eyJ0eXBlIjoiZGVmYXVsdCIsImlpZCI6Imluc18ycWN6OTFNNGJsM0RrYTZPUkdRak95b0NxaVEiLCJyaWQiOiJ1c2VyXzJxZDJIQWVJN1kxQmtySHFIRnZCV2FWejJycyIsImluaXRpYWxzIjoiUEQifQ",
-    has_image: false,
-    primary_email_address_id: "idn_2qd2Dj5bCvQpsYav3x1EIMsQZ51",
-    primary_phone_number_id: "idn_2qd2DewgQvIThmg3fhfIQQAdfsd",
-    primary_web3_wallet_id: null,
-    password_enabled: true,
-    two_factor_enabled: true,
-    totp_enabled: false,
-    backup_code_enabled: false,
-    email_addresses: [
-      {
-        id: "idn_2qd2Dj5bCvQpsYav3x1EIMsQZ51",
-        object: "email_address",
-        email_address: "pedromagro1995@gmail.com",
-        reserved: false,
-        verification: {
-          status: "verified",
-          strategy: "ticket",
-          attempts: null,
-          expire_at: null,
-        },
-        linked_to: [],
-        matches_sso_connection: false,
-        created_at: 1734978013941,
-        updated_at: 1734978041034,
-      },
-    ],
-    phone_numbers: [
-      {
-        id: "idn_2qd2DewgQvIThmg3fhfIQQAdfsd",
-        object: "phone_number",
-        phone_number: "+5513992043766",
-        reserved_for_second_factor: true,
-        default_second_factor: true,
-        reserved: false,
-        verification: {
-          status: "verified",
-          strategy: "phone_code",
-          attempts: 1,
-          expire_at: 1734978614967,
-        },
-        linked_to: [],
-        backup_codes: null,
-        created_at: 1734978013785,
-        updated_at: 1734978315306,
-      },
-    ],
-    web3_wallets: [],
-    passkeys: [],
-    external_accounts: [],
-    saml_accounts: [],
-    enterprise_accounts: [],
-    public_metadata: {},
-    private_metadata: {},
-    unsafe_metadata: {},
-    external_id: null,
-    last_sign_in_at: 1735006821281,
-    banned: false,
-    locked: false,
-    lockout_expires_in_seconds: null,
-    verification_attempts_remaining: 100,
-    created_at: 1734978040993,
-    updated_at: 1735007254448,
-    delete_self_enabled: true,
-    create_organization_enabled: true,
-    last_active_at: 1734978040990,
-    mfa_enabled_at: null,
-    mfa_disabled_at: null,
-    legal_accepted_at: null,
-    profile_image_url: "https://www.gravatar.com/avatar?d=mp",
-  },
-  {
-    id: "user_2qd2HAeI7Y1BkrHqHFvBWaVz2r8",
-    object: "user",
-    username: null,
-    first_name: "Pedro",
-    last_name: "Daniel",
-    image_url:
-      "https://img.clerk.com/eyJ0eXBlIjoiZGVmYXVsdCIsImlpZCI6Imluc18ycWN6OTFNNGJsM0RrYTZPUkdRak95b0NxaVEiLCJyaWQiOiJ1c2VyXzJxZDJIQWVJN1kxQmtySHFIRnZCV2FWejJycyIsImluaXRpYWxzIjoiUEQifQ",
-    has_image: false,
-    primary_email_address_id: "idn_2qd2Dj5bCvQpsYav3x1EIMsQZ51",
-    primary_phone_number_id: "idn_2qd2DewgQvIThmg3fhfIQQAdfsd",
-    primary_web3_wallet_id: null,
-    password_enabled: true,
-    two_factor_enabled: true,
-    totp_enabled: false,
-    backup_code_enabled: false,
-    email_addresses: [
-      {
-        id: "idn_2qd2Dj5bCvQpsYav3x1EIMsQZ51",
-        object: "email_address",
-        email_address: "pedromagro1995@gmail.com",
-        reserved: false,
-        verification: {
-          status: "verified",
-          strategy: "ticket",
-          attempts: null,
-          expire_at: null,
-        },
-        linked_to: [],
-        matches_sso_connection: false,
-        created_at: 1734978013941,
-        updated_at: 1734978041034,
-      },
-    ],
-    phone_numbers: [
-      {
-        id: "idn_2qd2DewgQvIThmg3fhfIQQAdfsd",
-        object: "phone_number",
-        phone_number: "+5513992043766",
-        reserved_for_second_factor: true,
-        default_second_factor: true,
-        reserved: false,
-        verification: {
-          status: "verified",
-          strategy: "phone_code",
-          attempts: 1,
-          expire_at: 1734978614967,
-        },
-        linked_to: [],
-        backup_codes: null,
-        created_at: 1734978013785,
-        updated_at: 1734978315306,
-      },
-    ],
-    web3_wallets: [],
-    passkeys: [],
-    external_accounts: [],
-    saml_accounts: [],
-    enterprise_accounts: [],
-    public_metadata: {},
-    private_metadata: {},
-    unsafe_metadata: {},
-    external_id: null,
-    last_sign_in_at: 1735006821281,
-    banned: false,
-    locked: false,
-    lockout_expires_in_seconds: null,
-    verification_attempts_remaining: 100,
-    created_at: 1734978040993,
-    updated_at: 1735007254448,
-    delete_self_enabled: true,
-    create_organization_enabled: true,
-    last_active_at: 1734978040990,
-    mfa_enabled_at: null,
-    mfa_disabled_at: null,
-    legal_accepted_at: null,
-    profile_image_url: "https://www.gravatar.com/avatar?d=mp",
-  },
-];
+import { redirect } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
+import axios from "axios";
 
 export default async function adminConfigUsuarios() {
   const { userId } = await auth();
   if (!userId) {
     redirect("/admin/login");
+  }
+
+  let allUsers: any[] = [];
+  let isLoading = true;
+
+  try {
+    allUsers = (
+      await axios.get("https://api.clerk.com/v1/users", {
+        headers: {
+          Authorization: `Bearer ${process.env.CLERK_SECRET_KEY}`,
+        },
+      })
+    ).data;
+    isLoading = false;
+  } catch (error) {
+    console.error("Erro ao buscar usuários:", error);
   }
 
   return (
@@ -707,30 +67,35 @@ export default async function adminConfigUsuarios() {
           </Breadcrumb>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
-          <div>
-            <section className="flex flex-col gap-4">
-              <h2 className="text-2xl">Usuários</h2>
-              <div className="flex">
-                <AdminInviteUsuariosForm />
-              </div>
-              <div className="grid auto-rows-min gap-4 lg:grid-cols-3">
-                {mock.map((m) => (
-                  <CardUsers
-                    key={m.id}
-                    idUser={m.id}
-                    firstName={m.first_name}
-                    lastName={m.last_name}
-                    email={m.email_addresses}
-                    phone={m.phone_numbers}
-                    createdAt={m.created_at}
-                    lastActiveAt={m.last_active_at}
-                    updatedAt={m.updated_at}
-                    image={m.image_url}
-                  />
-                ))}
-              </div>
-            </section>
-          </div>
+          <section className="flex flex-col gap-4">
+            <h2 className="text-2xl">Usuários</h2>
+            <div className="flex">
+              <AdminInviteUsuariosForm />
+            </div>
+            <div className="grid auto-rows-min gap-4 lg:grid-cols-3">
+              {isLoading
+                ? Array.from({ length: 6 }).map((_, index) => (
+                    <Skeleton
+                      key={index}
+                      className="h-[200px] w-full bg-gray-200 rounded-md"
+                    />
+                  ))
+                : allUsers.map((m: any) => (
+                    <CardUsers
+                      key={m.id}
+                      idUser={m.id}
+                      firstName={m.first_name}
+                      lastName={m.last_name}
+                      email={m.email_addresses}
+                      phone={m.phone_numbers}
+                      createdAt={m.created_at}
+                      lastActiveAt={m.last_active_at}
+                      updatedAt={m.updated_at}
+                      image={m.image_url}
+                    />
+                  ))}
+            </div>
+          </section>
         </div>
       </SidebarInset>
     </SidebarProvider>
