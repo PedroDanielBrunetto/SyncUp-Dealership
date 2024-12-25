@@ -74,6 +74,10 @@ const data = {
           title: "Motos",
           url: "/admin/vendas/motos",
         },
+        {
+          title: "Financiamento",
+          url: "/admin/vendas/financiamento",
+        },
       ],
     },
     {

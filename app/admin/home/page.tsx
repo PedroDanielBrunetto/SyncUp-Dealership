@@ -32,7 +32,7 @@ export default async function adminHome() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="#">Concessionária</BreadcrumbLink>
+                <BreadcrumbLink href="/admin/home">Concessionária</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
