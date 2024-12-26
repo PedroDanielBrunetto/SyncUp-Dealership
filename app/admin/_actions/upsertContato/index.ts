@@ -15,9 +15,11 @@ export const upsertContatoAsync = async ({ id, valor, tipo, user }: IReq) => {
   try {
     const dataToUpdate: any = {};
 
+    valor = valor.replace(/^https?:\/\//, "");
+
     if (tipo === EnumContatos.Email) dataToUpdate.email = valor;
     else if (tipo === EnumContatos.Celular) dataToUpdate.celular = valor;
-    else if (tipo === EnumContatos.WhatsApp) dataToUpdate.whatsAppUrl;
+    else if (tipo === EnumContatos.WhatsApp) dataToUpdate.whatsAppUrl = valor;
     else if (tipo === EnumContatos.Instagram) dataToUpdate.instagramUrl = valor;
     else if (tipo === EnumContatos.Facebook) dataToUpdate.facebookUrl = valor;
     else if (tipo === EnumContatos.YouTube) dataToUpdate.youtubeUrl = valor;

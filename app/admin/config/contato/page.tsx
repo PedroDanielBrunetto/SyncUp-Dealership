@@ -121,6 +121,9 @@ export default async function adminConfigContato() {
                     user={`${firstName} ${lastName}`}
                   />
                 </div>
+                <label className="text-xs text-gray-500">
+                  Coloque somente seu DDD e número sem os símbolos
+                </label>
               </div>
               {/* WhatsApp */}
               <div className="flex flex-col">
