@@ -38,11 +38,13 @@ model VeiculoAnuncio_Cliente {
 }
 
 model contato {
-  id           String @id @default(uuid())
+  id           Int      @id
   email        String
   whatsAppUrl  String
-  celular      String @db.VarChar(15)
+  celular      String   @db.VarChar(15)
   instagramUrl String
   facebookUrl  String
   youtubeUrl   String
+  updatedAt    DateTime @default(now()) @updatedAt
+  updatedBy    String
 }
