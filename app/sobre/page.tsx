@@ -1,5 +1,6 @@
 "use server";
 
+import { db } from "@/lib/prisma";
 import Footer from "../_components/Footer";
 import Header from "../_components/Header";
 import MainCard from "../_components/sobre/MainCard";
@@ -34,26 +35,38 @@ Visão
 `;
 
 const eyeText: string = `
-Ser referência nacional como a empresa mais surpreendente na conexão entre pessoas, veículos, bens e serviços afins.`;
+Ser referência nacional como a empresa mais surpreendente na conexão entre pessoas, veículos, bens e serviços afins.
+`;
 
 export default async function Sobre() {
+  const data = await db.sobre.findUnique({
+    where: {
+      id: 1,
+    },
+  });
   return (
     <main>
       <header className="w-full fixed z-50">
         <Header />
       </header>
       <section className="flex flex-col lg:flex-row p-4 lg:p-main pt-36 lg:pt-48 justify-center gap-8">
-        <MainCard car={false} text={mainText} />
+        <MainCard car={false} text={data?.sobreNos || mainText} />
         <MainCard car={true} text={""} />
       </section>
       <section className="flex flex-col lg:flex-row p-4 lg:p-main justify-center gap-8">
-        <SecondCard title={missionTitle} description={missionText} />
-        <SecondCard title={eyeTitle} description={eyeText} />
+        <SecondCard
+          title={missionTitle}
+          description={data?.missao || missionText}
+        />
+        <SecondCard title={eyeTitle} description={data?.visao || eyeText} />
       </section>
       <section className="flex p-4 lg:p-main">
         <iframe
           className="rounded-lg w-full h-96"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2340.7501800905306!2d-46.37450816092658!3d-23.951436855410954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce1da739e9eedd%3A0x3001a032e772692a!2sSartori%20Veiculos!5e1!3m2!1spt-BR!2sbr!4v1734550220390!5m2!1spt-BR!2sbr"
+          src={
+            data?.localizacao ||
+            `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d47402149.96562581!2d-51.316680000000005!3d-14.40952615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9c59c7ebcc28cf%3A0x295a1506f2293e63!2sBrasil!5e1!3m2!1spt-BR!2sbr!4v1735255036133!5m2!1spt-BR!2sbr`
+          }
           allowFullScreen
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
