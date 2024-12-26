@@ -48,3 +48,13 @@ model contato {
   updatedAt    DateTime @default(now()) @updatedAt
   updatedBy    String
 }
+
+model sobre {
+  id          Int      @id
+  sobreNos    String
+  missao      String   @db.VarChar(120)
+  visao       String   @db.VarChar(120)
+  localizacao String
+  updatedAt   DateTime @default(now()) @updatedAt
+  updatedBy   String
+}
