@@ -1,5 +1,6 @@
 "use client";
 
+import { upsertContatoAsync } from "@/app/admin/_actions/upsertContato";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,8 +14,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { PenBoxIcon } from "lucide-react";
+import { PenBoxIcon, X } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 interface IProps {
   id: number;
@@ -22,10 +24,40 @@ interface IProps {
   tipo: string;
   lastUpdateAt: Date;
   lastUpdateBy: string;
+  user: string;
 }
 
 export default function SheetUpsertContato(data: IProps) {
+  const [loading, setLoading] = useState(false);
   const [valueForUpdate, setValueForUpdate] = useState("");
+
+  const handleUpdate = async () => {
+    try {
+      setLoading(true);
+      const response = await upsertContatoAsync({
+        id: data.id,
+        tipo: data.tipo,
+        valor: valueForUpdate,
+        user: data.user,
+      });
+
+      toast(response.status ? "Sucesso!" : "Erro", {
+        description: response.status
+          ? "Contato atualizado com sucesso!"
+          : "Tente novamente.",
+        action: {
+          label: <X />,
+          onClick: () => console.log("SyncUp Brasil. www.syncupbrasil.tech"),
+        },
+      });
+      if (!response.status) console.error(response.message);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+      setValueForUpdate("");
+    }
+  };
 
   return (
     <Sheet>
@@ -68,7 +100,15 @@ export default function SheetUpsertContato(data: IProps) {
         </div>
         <SheetFooter>
           <SheetClose asChild>
-            <Button type="submit">Salvar</Button>
+            <Button type="submit" onClick={handleUpdate}>
+              {loading ? (
+                <>
+                  <span className="mr-2 loader"></span> Salvando
+                </>
+              ) : (
+                <>Salvar</>
+              )}
+            </Button>
           </SheetClose>
         </SheetFooter>
       </SheetContent>

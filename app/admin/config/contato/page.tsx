@@ -98,6 +98,7 @@ export default async function adminConfigContato() {
                     valor={data.email}
                     lastUpdateAt={data.updatedAt}
                     lastUpdateBy={data.updatedBy}
+                    user={`${firstName} ${lastName}`}
                   />
                 </div>
               </div>
@@ -117,6 +118,7 @@ export default async function adminConfigContato() {
                     valor={data.celular}
                     lastUpdateAt={data.updatedAt}
                     lastUpdateBy={data.updatedBy}
+                    user={`${firstName} ${lastName}`}
                   />
                 </div>
               </div>
@@ -133,6 +135,7 @@ export default async function adminConfigContato() {
                     valor={data.whatsAppUrl}
                     lastUpdateAt={data.updatedAt}
                     lastUpdateBy={data.updatedBy}
+                    user={`${firstName} ${lastName}`}
                   />
                 </div>
               </div>
@@ -149,6 +152,7 @@ export default async function adminConfigContato() {
                     valor={data.instagramUrl}
                     lastUpdateAt={data.updatedAt}
                     lastUpdateBy={data.updatedBy}
+                    user={`${firstName} ${lastName}`}
                   />
                 </div>
               </div>
@@ -165,6 +169,7 @@ export default async function adminConfigContato() {
                     valor={data.facebookUrl}
                     lastUpdateAt={data.updatedAt}
                     lastUpdateBy={data.updatedBy}
+                    user={`${firstName} ${lastName}`}
                   />
                 </div>
               </div>
@@ -181,6 +186,7 @@ export default async function adminConfigContato() {
                     valor={data.youtubeUrl}
                     lastUpdateAt={data.updatedAt}
                     lastUpdateBy={data.updatedBy}
+                    user={`${firstName} ${lastName}`}
                   />
                 </div>
               </div>
