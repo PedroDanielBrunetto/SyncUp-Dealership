@@ -1,4 +1,4 @@
-"use client";
+"use server";
 
 import Image from "next/image";
 import logo from "@/public/logo.png";
@@ -10,8 +10,15 @@ import {
   Youtube,
 } from "lucide-react";
 import ContactForEmailForm from "../actions/ContactForEmailForm";
+import { db } from "@/lib/prisma";
 
-const Footer = () => {
+const Footer = async () => {
+  const data = await db.contato.findUnique({
+    where: {
+      id: 1,
+    },
+  });
+
   return (
     <footer className="pt-12 flex flex-col 2xl:px-40 xl:px-32 lg:px-24 pr-4 p-4">
       <div className="pb-12">
@@ -24,30 +31,33 @@ const Footer = () => {
           </div>
           <p className="font-semibold">Qualidade, Segurança, Transparência.</p>
           <div className="flex gap-8">
-            <button>
+            <a href={`https://${data?.instagramUrl || null}`}>
               <Instagram />
-            </button>
-            <button>
+            </a>
+            <a href={`https://${data?.facebookUrl || null}`}>
               <Facebook />
-            </button>
-            <button>
+            </a>
+            <a href={`https://${data?.youtubeUrl || null}`}>
               <Youtube />
-            </button>
-            <button>
+            </a>
+            <a href={`https://${data?.whatsAppUrl || null}`}>
               <MessageCircle />
-            </button>
+            </a>
           </div>
         </div>
         <div className="flex flex-col gap-4">
           <h3 className="font-semibold">Contato</h3>
-          <a className="font-medium" href="/">
+          <a
+            className="font-medium"
+            href={`https://${data?.whatsAppUrl || null}`}
+          >
             WhatsApp
           </a>
-          <a className="font-medium" href="mailto:contato@touringcars.com.br">
-            concessionaria@gmail.com
+          <a className="font-medium" href={`mailto:${data?.email || null}`}>
+            {data?.email || null}
           </a>
-          <a className="font-medium" href="tel:+5513992043766">
-            (13) 99204-3766
+          <a className="font-medium" href={`tel:+55${data?.celular || null}`}>
+            {data?.celular || null}
           </a>
         </div>
         <div className="flex flex-col gap-4">

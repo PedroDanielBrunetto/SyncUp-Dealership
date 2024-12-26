@@ -1,3 +1,5 @@
+"use server";
+
 import Brands from "../_components/(home)/Brands";
 import Header from "../_components/Header";
 import HighlightWeek from "../_components/(home)/HighlightWeek";
@@ -6,7 +8,7 @@ import SpecificModel from "../_components/actions/SpecificModelForm";
 import Start from "../_components/(home)/Start";
 import Footer from "../_components/Footer";
 
-export default function Home() {
+export default async function Home() {
   return (
     <main>
       <header className="w-full fixed">

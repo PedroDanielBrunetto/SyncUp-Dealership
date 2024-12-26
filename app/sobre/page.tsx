@@ -1,4 +1,4 @@
-"use client";
+"use server";
 
 import Footer from "../_components/Footer";
 import Header from "../_components/Header";
@@ -36,7 +36,7 @@ Visão
 const eyeText: string = `
 Ser referência nacional como a empresa mais surpreendente na conexão entre pessoas, veículos, bens e serviços afins.`;
 
-export default function Sobre() {
+export default async function Sobre() {
   return (
     <main>
       <header className="w-full fixed z-50">
