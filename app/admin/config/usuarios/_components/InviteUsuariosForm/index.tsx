@@ -1,5 +1,6 @@
 "use client";
 
+import { inviteUserAsync } from "@/app/admin/_actions/inviteUser";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -21,11 +22,35 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, X } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function AdminInviteUsuariosForm() {
   const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+
+  const handleInvite = async () => {
+    try {
+      setLoading(true);
+      const response = await inviteUserAsync(email);
+      toast(response.status ? "Sucesso!" : "Erro", {
+        description: response.status
+          ? "Convite enviado com sucesso!"
+          : "Tente novamente.",
+        action: {
+          label: <X />,
+          onClick: () => console.log("Convite enviado."),
+        },
+      });
+      if (!response.status) console.error(response.message);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+      setEmail("");
+    }
+  };
 
   return (
     <Dialog>
@@ -49,6 +74,7 @@ export default function AdminInviteUsuariosForm() {
               id="email"
               placeholder="exemplo@email.com"
               className="col-span-3"
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
@@ -73,6 +99,7 @@ export default function AdminInviteUsuariosForm() {
             type="submit"
             className="flex items-center justify-center"
             disabled={loading}
+            onClick={handleInvite}
           >
             {loading ? (
               <>
