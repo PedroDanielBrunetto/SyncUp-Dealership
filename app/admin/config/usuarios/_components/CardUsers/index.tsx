@@ -98,7 +98,8 @@ export default function CardUsers({
                           : "Tente novamente.",
                         action: {
                           label: <X />,
-                          onClick: () => console.log("Usuário deletado."),
+                          onClick: () =>
+                            console.log("SyncUp Brasil. www.syncupbrasil.tech"),
                         },
                       });
                       if (!response.status) console.error(response.message);

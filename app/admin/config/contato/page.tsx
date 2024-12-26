@@ -16,11 +16,11 @@ import {
 } from "@/components/ui/sidebar";
 import { db } from "@/lib/prisma";
 
-import { auth } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { Separator } from "@radix-ui/react-separator";
 import { redirect } from "next/navigation";
-import SheetUpsertContato from "./_components/SheetUpsert";
 import { EnumContatos } from "@/utils/enums/contatos";
+import SheetUpsertContato from "./_components/SheetUpsert";
 
 interface ITb_Contato {
   id: number;
@@ -40,12 +40,13 @@ export default async function adminConfigContato() {
     redirect("/admin/login");
   }
 
+  const { firstName, lastName } = (await currentUser()) as any;
+
   const data = (await db.contato.findUnique({
     where: {
       id: 1,
     },
   })) as ITb_Contato;
-  console.log(data);
 
   return (
     <SidebarProvider>

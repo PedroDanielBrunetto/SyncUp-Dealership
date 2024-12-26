@@ -34,6 +34,6 @@ export const createClientVehiclelAsync = async (
     }
 
     console.error("Erro ao inserir no banco:", error);
-    return "Desculpe, algo deu errado. Ligue para nosso número.";
+    return "Desculpe, algo deu errado. Ligue para o suporte.";
   }
 };

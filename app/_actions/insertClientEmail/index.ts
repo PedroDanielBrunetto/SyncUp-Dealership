@@ -20,6 +20,6 @@ export const insertClientEmailAsync = async (
     return "Enviado com sucesso! Entraremos em contato.";
   } catch (error) {
     console.error("Erro ao inserir no banco:", error);
-    return "Desculpe, algo deu errado. Ligue para nosso número.";
+    return "Desculpe, algo deu errado. Ligue para o suporte.";
   }
 };
