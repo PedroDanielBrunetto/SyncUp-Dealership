@@ -7,19 +7,14 @@ import MainCard from "../_components/sobre/MainCard";
 import SecondCard from "../_components/sobre/SecondCard";
 
 const mainText: string = `
-A Concessionária é especializada, principalmente, na venda de veículos de luxo e superesportivos. 
+A Concessionária é especializada, principalmente, na venda de veículos casuais. 
 
 Com segurança, transparência e qualidade, nossos veículos são verificados e certificados para 
 garantir ao cliente uma compra completamente segura.
 
-Oferecemos exemplares especiais e exclusivos, além de um amplo estoque renovado diariamente 
-para oferecer a melhor experiência e um alto padrão de qualidade.
+Oferecemos exemplares especiais e em estados de conservação melhor impossível, além de um amplo estoque renovado diariamente para oferecer a melhor experiência e um alto padrão de qualidade.
 
-Contamos com Detail Center, frota própria para entrega em todo o Brasil, 
-além de um show room premium dedicado aos carros superesportivos, especiais, personalizados e exclusivos.
-
-A Concessionária se orgulha de firmar parcerias com os melhores fornecedores, lojas e centros técnicos do mundo, 
-para juntos desenhar uma das melhores estruturas de comércio de carros de luxo no país.
+Contamos com Detail Center, frota própria para entrega em toda região sudeste, além de um show room bem receptivo dedicado aos carros que você vai se encantar.
 `;
 
 const missionTitle: string = `
@@ -27,7 +22,7 @@ Missão
 `;
 
 const missionText: string = `
-Ser a melhor escolha em automóveis premium e fazer parte dos momentos especiais da vida das pessoas.
+Ser a melhor escolha em automóveis na baixada e fazer parte dos momentos especiais da vida das pessoas.
 `;
 
 const eyeTitle: string = `
@@ -35,7 +30,7 @@ Visão
 `;
 
 const eyeText: string = `
-Ser referência nacional como a empresa mais surpreendente na conexão entre pessoas, veículos, bens e serviços afins.
+Ser referência em toda baixada santista como a empresa mais surpreendente na conexão entre pessoas, veículos e bens.
 `;
 
 export default async function Sobre() {

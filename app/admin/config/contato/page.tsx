@@ -130,7 +130,9 @@ export default async function adminConfigContato() {
                 <label className="text-sm">WhatsApp:</label>
                 <div className="flex gap-2 items-center">
                   <a href={data.whatsAppUrl} className="text-black underline">
-                    {data.whatsAppUrl}
+                    {data.whatsAppUrl.length > 40
+                      ? `${data.whatsAppUrl.substring(0, 40)}...`
+                      : data.whatsAppUrl}
                   </a>
                   <SheetUpsertContato
                     tipo={EnumContatos.WhatsApp}
@@ -147,7 +149,9 @@ export default async function adminConfigContato() {
                 <label className="text-sm">Instagram:</label>
                 <div className="flex gap-2 items-center">
                   <a href={data.instagramUrl} className="text-black underline">
-                    {data.instagramUrl}
+                    {data.instagramUrl.length > 40
+                      ? `${data.instagramUrl.substring(0, 40)}...`
+                      : data.instagramUrl}
                   </a>
                   <SheetUpsertContato
                     tipo={EnumContatos.Instagram}
@@ -164,7 +168,9 @@ export default async function adminConfigContato() {
                 <label className="text-sm">Facebook:</label>
                 <div className="flex gap-2 items-center">
                   <a href={data.facebookUrl} className="text-black underline">
-                    {data.facebookUrl}
+                    {data.facebookUrl.length > 40
+                      ? `${data.facebookUrl.substring(0, 40)}...`
+                      : data.facebookUrl}
                   </a>
                   <SheetUpsertContato
                     tipo={EnumContatos.Facebook}
@@ -181,7 +187,9 @@ export default async function adminConfigContato() {
                 <label className="text-sm">Youtube:</label>
                 <div className="flex gap-2 items-center">
                   <a href={data.youtubeUrl} className="text-black underline">
-                    {data.youtubeUrl}
+                    {data.youtubeUrl.length > 40
+                      ? `${data.youtubeUrl.substring(0, 40)}...`
+                      : data.youtubeUrl}
                   </a>
                   <SheetUpsertContato
                     tipo={EnumContatos.YouTube}
