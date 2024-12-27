@@ -18,6 +18,7 @@ import { auth, currentUser } from "@clerk/nextjs/server";
 import { Separator } from "@radix-ui/react-separator";
 import { redirect } from "next/navigation";
 import AdminPreviewHighlight from "./_components/PreviewHighlight";
+import AdminUpdateHighlight from "./_components/UpdateHighlight";
 
 export default async function adminConfigDestaque() {
   const { userId } = await auth();
@@ -51,6 +52,9 @@ export default async function adminConfigDestaque() {
             <h2 className="text-2xl">Destaque Semanal</h2>
             <div>
               <AdminPreviewHighlight />
+            </div>
+            <div>
+              <AdminUpdateHighlight />
             </div>
           </section>
         </div>

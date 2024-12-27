@@ -12,7 +12,7 @@ const AdminPreviewHighlight = async () => {
   });
 
   return (
-    <main className="p-main flex flex-col gap-4 p-4">
+    <main className="flex flex-col gap-4 p-4">
       <div className="text-xl font-semibold">
         <h1>Atual:</h1>
       </div>
