@@ -159,6 +159,7 @@ model DestaqueSemanal {
   id        Int      @id @default(autoincrement())
   titulo    String   @db.VarChar(30)
   descricao String   @db.VarChar(255)
+  imageUrl  String
   updatedAt DateTime @default(now()) @updatedAt
   updatedBy String   @db.VarChar(120)
 }
