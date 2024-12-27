@@ -8,6 +8,7 @@ import {
   Instagram,
   MessageCircle,
   Youtube,
+  Globe,
 } from "lucide-react";
 import ContactForEmailForm from "../actions/ContactForEmailForm";
 import { db } from "@/lib/prisma";
@@ -73,6 +74,13 @@ const Footer = async () => {
         <Copyright className="text-gray-400" size={14} />
         Todos os direitos reservados.
       </p>
+      <a
+        className="text-gray-400 text-sm flex justify-center gap-1 items-center underline cursor-pointer"
+        href="https://syncupbrasil.tech"
+      >
+        <Globe className="text-gray-400" size={14} />
+        SyncUp Brasil
+      </a>
     </footer>
   );
 };
