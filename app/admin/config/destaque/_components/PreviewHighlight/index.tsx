@@ -1,10 +1,10 @@
 "use server";
 
 import Image from "next/image";
-import Macan from "@/public/home/highlight/Macan.png";
+import sw4 from "@/public/home/highlight/sw4.jpeg";
 import { db } from "@/lib/prisma";
 
-const HighlightWeek = async () => {
+const AdminPreviewHighlight = async () => {
   const data = await db.destaqueSemanal.findUnique({
     where: {
       id: 1,
@@ -13,13 +13,13 @@ const HighlightWeek = async () => {
 
   return (
     <main className="p-main flex flex-col gap-4 p-4">
-      <div className="text-3xl font-semibold">
-        <h1>Destaque da Semana</h1>
+      <div className="text-xl font-semibold">
+        <h1>Atual:</h1>
       </div>
       <div className="flex lg:flex-row flex-col justify-between items-center gap-4">
         <div className="lg:h-[460px] h-64 w-full lg:w-auto">
           <Image
-            src={data?.imageUrl || Macan}
+            src={data?.imageUrl || sw4}
             alt="Destaque"
             width={1920}
             height={1080}
@@ -52,4 +52,4 @@ const HighlightWeek = async () => {
   );
 };
 
-export default HighlightWeek;
+export default AdminPreviewHighlight;

@@ -17,6 +17,7 @@ import {
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { Separator } from "@radix-ui/react-separator";
 import { redirect } from "next/navigation";
+import AdminPreviewHighlight from "./_components/PreviewHighlight";
 
 export default async function adminConfigDestaque() {
   const { userId } = await auth();
@@ -48,6 +49,9 @@ export default async function adminConfigDestaque() {
         <div className="flex flex-1 flex-col gap-4 p-4">
           <section className="flex flex-col gap-4">
             <h2 className="text-2xl">Destaque Semanal</h2>
+            <div>
+              <AdminPreviewHighlight />
+            </div>
           </section>
         </div>
       </SidebarInset>
