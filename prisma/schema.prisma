@@ -37,24 +37,120 @@ model VeiculoAnuncio_Cliente {
   numero String @db.VarChar(15)
 }
 
-model contato {
-  id           Int      @id
-  email        String
-  whatsAppUrl  String
-  celular      String   @db.VarChar(15)
-  instagramUrl String
-  facebookUrl  String
-  youtubeUrl   String
+model Contato {
+  id           Int      @id @default(1)
+  email        String   @default("contato@syncupbrasil.tech")
+  whatsAppUrl  String   @default("api.whatsapp.com")
+  celular      String   @default("13999999999") @db.VarChar(15)
+  instagramUrl String   @default("instagram.com/syncupbrasil")
+  facebookUrl  String   @default("instagram.com/syncupbrasil")
+  youtubeUrl   String   @default("instagram.com/syncupbrasil")
   updatedAt    DateTime @default(now()) @updatedAt
-  updatedBy    String
+  updatedBy    String   @default("SyncUp Brasil")
 }
 
-model sobre {
-  id          Int      @id
-  sobreNos    String
-  missao      String   @db.VarChar(120)
-  visao       String   @db.VarChar(120)
-  localizacao String
+model Sobre {
+  id          Int      @id @default(1)
+  sobreNos    String   @default("SyncUp Brasil")
+  missao      String   @default("SyncUp Brasil") @db.VarChar(120)
+  visao       String   @default("SyncUp Brasil") @db.VarChar(120)
+  localizacao String   @default("SyncUp Brasil")
   updatedAt   DateTime @default(now()) @updatedAt
-  updatedBy   String
+  updatedBy   String   @default("SyncUp Brasil")
+}
+
+enum Combustivel {
+  GASOLINA
+  ALCOOL
+  FLEX
+  DIESEL
+  ELETRICO
+  HIBRIDO
+  GNV
+}
+
+enum Transmissao {
+  MANUAL
+  AUTOMATICO
+  CVT
+  SEMI_AUTOMATICO
+  AUTOMATIZADO
+}
+
+enum TipoBlindagem {
+  LEVE
+  MEDIA
+  PESADA
+  NENHUMA
+}
+
+enum Tracao {
+  DIANTEIRA
+  TRASEIRA
+  INTEGRAL
+  QUATRO_POR_QUATRO
+}
+
+enum StatusVenda {
+  LIVRE // Veículo disponível para venda
+  RESERVADO // Veículo reservado por um cliente
+  NEGOCIANDO // Em negociação com um cliente
+  VENDIDO // Veículo vendido
+  EM_FINANCIAMENTO // Aguardando aprovação de financiamento
+  EM_TRANSFERENCIA // Transferência de propriedade em andamento
+  EM_ANALISE // Veículo em análise para venda
+  EM_MANUTENCAO // Veículo em manutenção
+  CONTESTACAO // Venda ou propriedade em contestação
+  CANCELADO // Venda ou negociação cancelada
+  DEVOLVIDO // Veículo devolvido após a venda
+  RETIRADO // Veículo retirado do estoque
+}
+
+model Carro {
+  id            Int            @id @default(autoincrement())
+  public_id     String         @unique @default(uuid())
+  modelo        String         @db.VarChar(60)
+  versao        String         @db.VarChar(120)
+  marca         String         @db.VarChar(30)
+  valor         Decimal        @db.Decimal(10, 2)
+  anoFab        Int
+  anoMod        Int
+  hodometro     Int
+  detalhes      String         @db.Text
+  portas        Int
+  lugares       Int
+  placa         String         @unique @db.VarChar(10)
+  combustivel   Combustivel
+  transmissao   Transmissao
+  velocidades   Int
+  blindagem     Boolean
+  tipoBlindagem TipoBlindagem
+  tracao        Tracao
+  portaMalas    Int
+  cavalos       Int
+  cor           String         @db.VarChar(60)
+  bancos        String         @db.VarChar(60)
+  torque        Float
+  velocidadeMax Int
+  avatar        String
+  status        StatusVenda
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @default(now()) @updatedAt
+  createdBy     String         @db.VarChar(120)
+  updatedBy     String         @db.VarChar(120)
+  ImagensCarro  ImagensCarro[]
+
+  @@index([placa])
+  @@index([public_id])
+}
+
+model ImagensCarro {
+  id        Int      @id @default(autoincrement())
+  public_id String
+  url       String   @db.Text
+  createdAt DateTime @default(now())
+
+  carro Carro @relation(fields: [public_id], references: [public_id], onDelete: Cascade)
+
+  @@index([public_id])
 }
