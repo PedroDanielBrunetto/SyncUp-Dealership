@@ -8,6 +8,7 @@ const s3 = new S3({
   },
 });
 
+const regionName = process.env.AWS_REGION || "us-east-1";
 const bucketName = process.env.AWS_BUCKET || "bucket";
 
-export { s3, bucketName };
+export { s3, bucketName, regionName };

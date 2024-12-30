@@ -1,4 +1,4 @@
-import { s3, bucketName } from "./config";
+import { s3, bucketName, regionName } from "./config";
 
 export class S3StorageProvider {
   async saveFile(
@@ -15,7 +15,7 @@ export class S3StorageProvider {
       })
       .promise();
 
-    return `https://${bucketName}.s3.amazonaws.com/${key}`;
+    return `https://${bucketName}.s3.${regionName}.amazonaws.com/${key}`;
   }
 
   async deleteFile(key: string): Promise<void> {
