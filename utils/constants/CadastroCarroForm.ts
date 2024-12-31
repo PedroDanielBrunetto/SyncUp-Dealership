@@ -29,3 +29,31 @@ export const Tracao = [
   { label: "Integral", value: "INTEGRAL" },
   { label: "4x4", value: "QUATRO_POR_QUATRO" },
 ];
+
+export const TipoModelo = [
+  { label: "Sedan", value: "SEDAN" },
+  { label: "Hatch", value: "HATCHBACK" },
+  { label: "SUV", value: "SUV" },
+  { label: "Coupe", value: "COUPE" },
+  { label: "Van", value: "VAN" },
+  { label: "Mini-Van", value: "MINIVAN" },
+  { label: "Off-Road", value: "OFFROAD" },
+  { label: "Micro-Carro", value: "MICROCAR" },
+  { label: "PickUp", value: "PICKUP" },
+  { label: "Esportivo", value: "ESPORTIVO" },
+];
+
+export const StatusVenda = [
+  { label: "Livre", value: "LIVRE" },
+  { label: "Reservado", value: "RESERVADO" },
+  { label: "Negociando", value: "NEGOCIANDO" },
+  { label: "Vendido", value: "VENDIDO" },
+  { label: "Financiamento", value: "EM_FINANCIAMENTO" },
+  { label: "Transferência", value: "EM_TRANSFERENCIA" },
+  { label: "Análise", value: "EM_ANALISE" },
+  { label: "Manutenção", value: "EM_MANUTENCAO" },
+  { label: "Contestação", value: "CONTESTACAO" },
+  { label: "Cancelado", value: "CANCELADO" },
+  { label: "Devolvido", value: "DEVOLVIDO" },
+  { label: "Retirado", value: "RETIRADO" },
+];
