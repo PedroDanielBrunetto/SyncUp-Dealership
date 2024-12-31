@@ -77,6 +77,11 @@ const AdminUpdateHighlight = () => {
       console.error(error);
     } finally {
       setLoading(false);
+      setFormData({
+        id: 1,
+        titulo: "",
+        descricao: "",
+      });
     }
   };
 
@@ -96,6 +101,7 @@ const AdminUpdateHighlight = () => {
               placeholder="Escreva o título aqui."
               maxLength={25}
               onChange={handleChange}
+              value={formData.titulo}
               id="titulo"
             />
             <p className="text-sm text-muted-foreground">
@@ -109,6 +115,7 @@ const AdminUpdateHighlight = () => {
               placeholder="Escreva sua mensagem aqui."
               maxLength={240}
               onChange={handleChange}
+              value={formData.descricao}
               id="descricao"
             />
             <p className="text-sm text-muted-foreground">

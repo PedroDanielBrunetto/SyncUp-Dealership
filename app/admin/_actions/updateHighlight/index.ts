@@ -34,7 +34,7 @@ export const updateHighlightAsync = async ({
 
     if (!highlight) throw new Error("O Destaque não foi encontrado.");
 
-    if (highlight.imageUrl) {
+    if (file && highlight.imageUrl) {
       const oldFileName = path.basename(highlight.imageUrl);
       await s3.deleteFile(`home/destaque/${oldFileName}`);
     }
@@ -42,14 +42,17 @@ export const updateHighlightAsync = async ({
     const fileBuffer = await convertFileToBuffer(file);
 
     const fileKey = `home/destaque/${fileName}`;
-    const newImageUrl = await s3.saveFile(fileKey, fileBuffer, contentType);
+
+    let newImageUrl;
+    if (file != null)
+      newImageUrl = await s3.saveFile(fileKey, fileBuffer, contentType);
 
     await db.destaqueSemanal.update({
       data: {
         titulo,
         descricao,
         updatedBy: `${firstName} ${lastName}`,
-        imageUrl: newImageUrl,
+        imageUrl: file != null ? newImageUrl : highlight.imageUrl,
       },
       where: {
         id,
