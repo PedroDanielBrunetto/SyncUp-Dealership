@@ -107,38 +107,40 @@ enum StatusVenda {
 }
 
 model Carro {
-  id            Int            @id @default(autoincrement())
-  public_id     String         @unique @default(uuid())
-  modelo        String         @db.VarChar(60)
-  versao        String         @db.VarChar(120)
-  marca         String         @db.VarChar(30)
-  valor         Decimal        @db.Decimal(10, 2)
-  anoFab        Int
-  anoMod        Int
-  hodometro     Int
-  detalhes      String         @db.Text
-  portas        Int
-  lugares       Int
-  placa         String         @unique @db.VarChar(10)
-  combustivel   Combustivel
-  transmissao   Transmissao
-  velocidades   Int
-  blindagem     Boolean
-  tipoBlindagem TipoBlindagem
-  tracao        Tracao
-  portaMalas    Int
-  cavalos       Int
-  cor           String         @db.VarChar(60)
-  bancos        String         @db.VarChar(60)
-  torque        Float
-  velocidadeMax Int
-  avatar        String
-  status        StatusVenda
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @default(now()) @updatedAt
-  createdBy     String         @db.VarChar(120)
-  updatedBy     String         @db.VarChar(120)
-  ImagensCarro  ImagensCarro[]
+  id             Int            @id @default(autoincrement())
+  public_id      String         @unique @default(uuid())
+  modelo         String         @db.VarChar(60)
+  versao         String         @db.VarChar(120)
+  marca          String         @db.VarChar(30)
+  valor          Decimal        @db.Decimal(10, 2)
+  anoFab         Int
+  anoMod         Int
+  hodometro      Int
+  detalhes       String         @db.Text
+  portas         Int
+  lugares        Int
+  placa          String         @unique @db.VarChar(10)
+  combustivel    Combustivel
+  transmissao    Transmissao
+  velocidades    Int
+  arCondicionado Boolean
+  blindagem      Boolean
+  tipoBlindagem  TipoBlindagem
+  tracao         Tracao
+  portaMalas     Int
+  cavalos        Int
+  pesoVeiculo    Int
+  cor            String         @db.VarChar(60)
+  bancos         String         @db.VarChar(60)
+  torque         Float
+  velocidadeMax  Int
+  avatar         String
+  status         StatusVenda
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @default(now()) @updatedAt
+  createdBy      String         @db.VarChar(120)
+  updatedBy      String         @db.VarChar(120)
+  ImagensCarro   ImagensCarro[]
 
   @@index([placa])
   @@index([public_id])
