@@ -23,8 +23,16 @@ import { formatCurrency } from "@/utils/functions/formatCurrency";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { ArrowRight } from "lucide-react";
+import {
+  generateCadastroCarroPayload,
+  ICadastroCarroPayload,
+} from "@/utils/functions/generateCadastroCarroPayload";
+import { verifyCadastroCarroFields } from "@/utils/functions/verifyCadastroCarroFields";
 
 export default function CadastroVeiculoForm() {
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({
     modelo: "",
     tipoModelo: "",
@@ -84,22 +92,22 @@ export default function CadastroVeiculoForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const payload = {
-      ...formData,
-      valor: parseFloat(
-        formData.valor.replace(/[^\d,]/g, "").replace(",", ".")
-      ),
-      anoFab: parseInt(formData.anoFab, 10),
-      anoMod: parseInt(formData.anoMod, 10),
-      hodometro: parseInt(formData.hodometro, 10),
-      velocidades: parseInt(formData.velocidades, 10),
-      portaMalas: parseInt(formData.portaMalas, 10),
-      cavalos: parseInt(formData.cavalos, 10),
-      pesoVeiculo: parseInt(formData.pesoVeiculo, 10),
-      velocidadeMax: parseInt(formData.velocidadeMax, 10),
-      capacidadeTanque: parseInt(formData.capacidadeTanque, 10),
-    };
-    console.log("Dados enviados:", payload);
+    const payload: ICadastroCarroPayload =
+      generateCadastroCarroPayload(formData);
+
+    const verifyFields = verifyCadastroCarroFields(payload);
+    if (verifyFields != true) {
+      setMessage(verifyFields);
+      return;
+    }
+
+    try {
+      console.log("Dados enviados:", payload);
+    } catch (error) {
+    } finally {
+      setLoading(false);
+      setMessage("");
+    }
   };
 
   return (
@@ -115,7 +123,6 @@ export default function CadastroVeiculoForm() {
           maxLength={60}
         />
       </div>
-
       {/* Tipo Modelo */}
       <div>
         <Label className="text-muted-foreground">Tipo de Modelo</Label>
@@ -135,7 +142,6 @@ export default function CadastroVeiculoForm() {
           </SelectContent>
         </Select>
       </div>
-
       {/* Versão */}
       <div>
         <Label className="text-muted-foreground">Versão</Label>
@@ -147,7 +153,6 @@ export default function CadastroVeiculoForm() {
           maxLength={120}
         />
       </div>
-
       {/* Marca */}
       <div>
         <Label className="text-muted-foreground">Marca</Label>
@@ -167,7 +172,6 @@ export default function CadastroVeiculoForm() {
           </SelectContent>
         </Select>
       </div>
-
       {/* Valor */}
       <div>
         <Label className="text-muted-foreground">Valor</Label>
@@ -185,7 +189,6 @@ export default function CadastroVeiculoForm() {
           }}
         />
       </div>
-
       {/* Ano Fabricação */}
       <div>
         <Label className="text-muted-foreground">Ano de Fabricação</Label>
@@ -199,7 +202,6 @@ export default function CadastroVeiculoForm() {
           max={3000}
         />
       </div>
-
       {/* Ano Modelo */}
       <div>
         <Label className="text-muted-foreground">Ano do Modelo</Label>
@@ -213,7 +215,6 @@ export default function CadastroVeiculoForm() {
           max={3000}
         />
       </div>
-
       {/* Hodômetro */}
       <div>
         <Label className="text-muted-foreground">Hodômetro</Label>
@@ -227,7 +228,6 @@ export default function CadastroVeiculoForm() {
           max={9999999}
         />
       </div>
-
       {/* Detalhes */}
       <div>
         <Label className="text-muted-foreground">Detalhes</Label>
@@ -238,7 +238,6 @@ export default function CadastroVeiculoForm() {
           onChange={handleChange}
         />
       </div>
-
       {/* Número de Portas */}
       <div>
         <Label className="text-muted-foreground">Número de Portas</Label>
@@ -250,7 +249,6 @@ export default function CadastroVeiculoForm() {
           onChange={handleChange}
         />
       </div>
-
       {/* Número de Lugares */}
       <div>
         <Label className="text-muted-foreground">Número de Lugares</Label>
@@ -262,7 +260,6 @@ export default function CadastroVeiculoForm() {
           onChange={handleChange}
         />
       </div>
-
       {/* Placa */}
       <div>
         <Label className="text-muted-foreground">Placa</Label>
@@ -274,7 +271,6 @@ export default function CadastroVeiculoForm() {
           maxLength={10}
         />
       </div>
-
       {/* Tipo Combustível */}
       <div>
         <Label className="text-muted-foreground">Tipo de Combustível</Label>
@@ -294,7 +290,6 @@ export default function CadastroVeiculoForm() {
           </SelectContent>
         </Select>
       </div>
-
       {/* Tipo Transmissão */}
       <div>
         <Label className="text-muted-foreground">Tipo de Transmissão</Label>
@@ -314,7 +309,6 @@ export default function CadastroVeiculoForm() {
           </SelectContent>
         </Select>
       </div>
-
       {/* Número de Velocidades */}
       <div>
         <Label className="text-muted-foreground">
@@ -328,7 +322,6 @@ export default function CadastroVeiculoForm() {
           onChange={handleChange}
         />
       </div>
-
       {/* Ar Condicionado; Blindagem; Tipo Blindagem */}
       <div className="flex gap-2 lg:flex-row flex-col">
         <div className="flex gap-1 items-center">
@@ -366,7 +359,6 @@ export default function CadastroVeiculoForm() {
           </Select>
         </div>
       </div>
-
       {/* Tipo Tração */}
       <div>
         <Label className="text-muted-foreground">Tipo de Tração</Label>
@@ -386,7 +378,6 @@ export default function CadastroVeiculoForm() {
           </SelectContent>
         </Select>
       </div>
-
       {/* Capacidade do Porta Malas */}
       <div>
         <Label className="text-muted-foreground">
@@ -400,7 +391,6 @@ export default function CadastroVeiculoForm() {
           onChange={handleChange}
         />
       </div>
-
       {/* Capacidade do Tanque */}
       <div>
         <Label className="text-muted-foreground">
@@ -414,7 +404,6 @@ export default function CadastroVeiculoForm() {
           onChange={handleChange}
         />
       </div>
-
       {/* Peso do Veículo */}
       <div>
         <Label className="text-muted-foreground">Peso do Veículo em KG</Label>
@@ -426,7 +415,6 @@ export default function CadastroVeiculoForm() {
           onChange={handleChange}
         />
       </div>
-
       {/* Cor do Veículo */}
       <div>
         <Label className="text-muted-foreground">Cor do Veículo</Label>
@@ -438,7 +426,6 @@ export default function CadastroVeiculoForm() {
           maxLength={60}
         />
       </div>
-
       {/* Bancos do Veículo */}
       <div>
         <Label className="text-muted-foreground">
@@ -452,7 +439,6 @@ export default function CadastroVeiculoForm() {
           maxLength={60}
         />
       </div>
-
       {/* Cavalos */}
       <div>
         <Label className="text-muted-foreground">Potência em Cavalos</Label>
@@ -464,7 +450,6 @@ export default function CadastroVeiculoForm() {
           onChange={handleChange}
         />
       </div>
-
       {/* Velocidade Máxima */}
       <div>
         <Label className="text-muted-foreground">
@@ -478,7 +463,6 @@ export default function CadastroVeiculoForm() {
           onChange={handleChange}
         />
       </div>
-
       {/* Status Venda */}
       <div>
         <Label className="text-muted-foreground">Status da Venda</Label>
@@ -498,8 +482,20 @@ export default function CadastroVeiculoForm() {
           </SelectContent>
         </Select>
       </div>
-
-      <Button type="submit">Cadastrar</Button>
+      <div className="pt-2">
+        <span className="text-muted-foreground">{message}</span>
+      </div>
+      <Button type="submit" disabled={loading}>
+        {loading ? (
+          <>
+            <span className="mr-2 loader"></span> Redirecionando...
+          </>
+        ) : (
+          <>
+            Criar Veículo <ArrowRight className="ml-2" />
+          </>
+        )}
+      </Button>{" "}
     </form>
   );
 }
