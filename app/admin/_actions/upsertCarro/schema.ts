@@ -1,0 +1,38 @@
+import {
+  Combustivel,
+  StatusVenda,
+  TipoBlindagem,
+  Tracao,
+  Transmissao,
+} from "@prisma/client";
+import { z } from "zod";
+
+export const upsertCarroSchema = z.object({
+  modelo: z.string().trim().min(1),
+  tipoModelo: z.nativeEnum(TipoBlindagem),
+  versao: z.string().trim().min(1),
+  marca: z.string().trim().min(1),
+  valor: z.number().min(1),
+  anoFab: z.number().min(1),
+  anoMod: z.number().min(1),
+  hodometro: z.number().min(1),
+  detalhes: z.string().nullable(),
+  portas: z.number().min(1),
+  lugares: z.number().nullable(),
+  placa: z.string().trim().min(1),
+  combustivel: z.nativeEnum(Combustivel),
+  transmissao: z.nativeEnum(Transmissao),
+  velocidades: z.number().nullable(),
+  arCondicionado: z.boolean(),
+  blindagem: z.boolean(),
+  tipoBlindagem: z.nativeEnum(TipoBlindagem).nullable(),
+  tracao: z.nativeEnum(Tracao).nullable(),
+  portaMalas: z.number().nullable(),
+  cavalos: z.number().nullable(),
+  pesoVeiculo: z.number().nullable(),
+  cor: z.string().trim().min(1),
+  bancos: z.string().nullable(),
+  velocidadeMax: z.number().nullable(),
+  capacidadeTanque: z.number().nullable(),
+  status: z.nativeEnum(StatusVenda),
+});

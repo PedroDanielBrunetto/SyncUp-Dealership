@@ -1,32 +1,4 @@
-export interface ICadastroCarroPayload {
-  modelo: string;
-  tipoModelo: string;
-  versao: string;
-  marca: string;
-  valor: number;
-  anoFab: number;
-  anoMod: number;
-  hodometro: number;
-  detalhes: string;
-  portas: number;
-  lugares: number | null;
-  placa: string;
-  combustivel: string;
-  transmissao: string;
-  velocidades: number | null;
-  arCondicionado: boolean;
-  blindagem: boolean;
-  tipoBlindagem: string;
-  tracao: string;
-  portaMalas: number | null;
-  cavalos: number | null;
-  pesoVeiculo: number | null;
-  cor: string;
-  bancos: string;
-  velocidadeMax: number | null;
-  capacidadeTanque: number | null;
-  status: string;
-}
+import { ICadastroCarroPayload } from "../interfaces/ICadastroCarroPayload";
 
 export const generateCadastroCarroPayload = (
   formData: any
@@ -58,6 +30,13 @@ export const generateCadastroCarroPayload = (
       formData.capacidadeTanque == ""
         ? null
         : parseInt(formData.capacidadeTanque, 10),
+    detalhes: formData.detalhes == "" ? null : formData.detalhes,
+    bancos: formData.bancos == "" ? null : formData.bancos,
+    tracao: formData.tracao == "" ? null : formData.tracao,
+    tipoBlindagem:
+      !formData.blindagem || formData.tipoBlindagem == ""
+        ? null
+        : formData.tipoBlindagem,
   } as ICadastroCarroPayload;
 
   return payload;
