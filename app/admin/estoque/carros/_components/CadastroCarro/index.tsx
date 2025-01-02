@@ -30,9 +30,10 @@ import { ICadastroCarroPayload } from "@/utils/interfaces/ICadastroCarroPayload"
 import carBrandsData from "@/utils/carBrands.json";
 import { upsertCarroAsync } from "@/app/admin/_actions/upsertCarro";
 
-export default function CadastroVeiculoForm() {
+export default function CadastroVeiculoForm(props: any) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [otherBrand, setOtherBrand] = useState(false);
   const [formData, setFormData] = useState({
     modelo: "",
     tipoModelo: "",
@@ -89,10 +90,12 @@ export default function CadastroVeiculoForm() {
   };
 
   const handleSwitchChange = (name: string) => (checked: boolean) => {
-    setFormData((prev) => ({
-      ...prev,
-      [name]: checked,
-    }));
+    if (name == "brand") setOtherBrand(checked);
+    else
+      setFormData((prev) => ({
+        ...prev,
+        [name]: checked,
+      }));
   };
 
   const handleImageUpload = (
@@ -184,21 +187,38 @@ export default function CadastroVeiculoForm() {
       {/* Marca */}
       <div>
         <Label className="text-muted-foreground">Marca</Label>
-        <Select
-          onValueChange={(value) => handleSelectChange("marca", value)}
-          value={formData.marca}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Selecione a Marca" />
-          </SelectTrigger>
-          <SelectContent>
-            {carBrandsData.carBrands.map((brand) => (
-              <SelectItem key={brand} value={brand}>
-                {brand}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        {!otherBrand ? (
+          <Select
+            onValueChange={(value) => handleSelectChange("marca", value)}
+            value={formData.marca}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Selecione a Marca" />
+            </SelectTrigger>
+            <SelectContent>
+              {carBrandsData.carBrands.map((brand) => (
+                <SelectItem key={brand} value={brand}>
+                  {brand}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        ) : (
+          <Input
+            name="marca"
+            placeholder="Escreva a Marca"
+            value={formData.marca}
+            onChange={handleChange}
+            maxLength={120}
+          />
+        )}
+        <div className="flex items-center gap-1 pt-2">
+          <Label className="text-muted-foreground">Escrever a Marca</Label>
+          <Switch
+            checked={otherBrand}
+            onCheckedChange={handleSwitchChange("brand")}
+          />
+        </div>
       </div>
       {/* Valor */}
       <div>
