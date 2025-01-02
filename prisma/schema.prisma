@@ -148,12 +148,12 @@ model Carro {
   bancos           String?        @db.VarChar(60)
   velocidadeMax    Int?
   capacidadeTanque Int?
-  avatar           String
+  avatar           String?
   status           StatusVenda
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @default(now()) @updatedAt
   createdBy        String         @db.VarChar(120)
-  updatedBy        String         @db.VarChar(120)
+  updatedBy        String?        @db.VarChar(120)
   ImagensCarro     ImagensCarro[]
 
   @@index([placa])
