@@ -28,6 +28,7 @@ import { verifyCadastroCarroFields } from "@/utils/functions/verifyCadastroCarro
 import { formatCurrency } from "@/utils/functions/formatCurrency";
 import { ICadastroCarroPayload } from "@/utils/interfaces/ICadastroCarroPayload";
 import carBrandsData from "@/utils/carBrands.json";
+import { upsertCarroAsync } from "@/app/admin/_actions/upsertCarro";
 
 export default function CadastroVeiculoForm() {
   const [loading, setLoading] = useState(false);
@@ -106,7 +107,7 @@ export default function CadastroVeiculoForm() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const payload: ICadastroCarroPayload =
       generateCadastroCarroPayload(formData);
@@ -118,11 +119,22 @@ export default function CadastroVeiculoForm() {
     }
 
     try {
-      console.log("Dados enviados:", payload, imageData);
+      setLoading(true);
+      const response = await upsertCarroAsync(payload, imageData);
+
+      if (response.status)
+        window.location.replace(
+          "/admin/estoque/carros/cadastro/" + response.uuid
+        );
+
+      setMessage(response.message);
     } catch (error) {
+      console.error(error);
     } finally {
       setLoading(false);
-      setMessage("");
+      setTimeout(() => {
+        setMessage("");
+      }, 3000);
     }
   };
 

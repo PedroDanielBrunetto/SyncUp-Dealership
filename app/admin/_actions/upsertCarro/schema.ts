@@ -2,6 +2,7 @@ import {
   Combustivel,
   StatusVenda,
   TipoBlindagem,
+  TipoModelo,
   Tracao,
   Transmissao,
 } from "@prisma/client";
@@ -9,7 +10,7 @@ import { z } from "zod";
 
 export const upsertCarroSchema = z.object({
   modelo: z.string().trim().min(1),
-  tipoModelo: z.nativeEnum(TipoBlindagem),
+  tipoModelo: z.nativeEnum(TipoModelo),
   versao: z.string().trim().min(1),
   marca: z.string().trim().min(1),
   valor: z.number().min(1),

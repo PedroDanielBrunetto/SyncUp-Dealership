@@ -6,6 +6,7 @@ import { S3StorageProvider } from "@/providers/aws/s3/S3StorageProvider";
 import { ICadastroCarroPayload } from "@/utils/interfaces/ICadastroCarroPayload";
 import { convertFileToBuffer } from "@/utils/functions/convertFileToBuffer";
 import { upsertCarroSchema } from "./schema";
+import { ZodError } from "zod";
 import path from "path";
 
 interface IFile {
@@ -25,11 +26,14 @@ export const upsertCarroAsync = async (
     const s3 = new S3StorageProvider();
     const { firstName, lastName } = (await currentUser()) as any;
 
-    const existingCar = public_id
-      ? await db.carro.findUnique({
-          where: { public_id },
-        })
-      : null;
+    const existingCar = await db.carro.findFirst({
+      where: {
+        OR: [{ public_id }, { placa: payload.placa }],
+      },
+    });
+
+    if (existingCar?.placa == payload.placa)
+      throw new Error("Placa cadastrada em outro veículo.");
 
     if (pack.file && existingCar?.avatar) {
       const oldFileName = path.basename(existingCar.avatar);
@@ -68,8 +72,20 @@ export const upsertCarroAsync = async (
     return {
       status: true,
       message: "Carro salvo com sucesso",
+      uuid: car.public_id,
     };
   } catch (error) {
+    if (error instanceof ZodError) {
+      return {
+        status: false,
+        message: "Erro de validação",
+        errors: error.errors.map((err) => ({
+          path: err.path.join("."),
+          message: err.message,
+        })),
+      };
+    }
+
     return {
       status: false,
       message: error instanceof Error ? error.message : "Erro inesperado",
