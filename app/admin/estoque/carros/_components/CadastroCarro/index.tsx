@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { ArrowRight } from "lucide-react";
+import ImageInputProps from "@/app/_components/ImageInputProps";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -10,7 +12,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import carBrandsData from "@/utils/carBrands.json";
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import {
   combustiveis,
   StatusVenda,
@@ -19,16 +23,11 @@ import {
   Tracao,
   transmissoes,
 } from "@/utils/constants/CadastroCarroForm";
-import { formatCurrency } from "@/utils/functions/formatCurrency";
-import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { ArrowRight } from "lucide-react";
-import {
-  generateCadastroCarroPayload,
-  ICadastroCarroPayload,
-} from "@/utils/functions/generateCadastroCarroPayload";
+import { generateCadastroCarroPayload } from "@/utils/functions/generateCadastroCarroPayload";
 import { verifyCadastroCarroFields } from "@/utils/functions/verifyCadastroCarroFields";
+import { formatCurrency } from "@/utils/functions/formatCurrency";
+import { ICadastroCarroPayload } from "@/utils/interfaces/ICadastroCarroPayload";
+import carBrandsData from "@/utils/carBrands.json";
 
 export default function CadastroVeiculoForm() {
   const [loading, setLoading] = useState(false);
@@ -62,6 +61,11 @@ export default function CadastroVeiculoForm() {
     capacidadeTanque: "",
     status: "",
   });
+  const [imageData, setImageData] = useState<{
+    fileName: string;
+    file: File | null;
+    contentType: string;
+  }>({ fileName: "", file: null, contentType: "" });
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -90,19 +94,31 @@ export default function CadastroVeiculoForm() {
     }));
   };
 
+  const handleImageUpload = (
+    file: File,
+    filename: string,
+    contentType: string
+  ) => {
+    setImageData({
+      fileName: filename,
+      file: file,
+      contentType: contentType,
+    });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const payload: ICadastroCarroPayload =
       generateCadastroCarroPayload(formData);
 
-    const verifyFields = verifyCadastroCarroFields(payload);
+    const verifyFields = verifyCadastroCarroFields(payload, imageData.file);
     if (verifyFields != true) {
       setMessage(verifyFields);
       return;
     }
 
     try {
-      console.log("Dados enviados:", payload);
+      console.log("Dados enviados:", payload, imageData);
     } catch (error) {
     } finally {
       setLoading(false);
@@ -481,6 +497,11 @@ export default function CadastroVeiculoForm() {
             ))}
           </SelectContent>
         </Select>
+      </div>
+      {/* Avatar */}
+      <div className="xl:w-2/4 flex flex-col gap-3">
+        <Label className="text-muted-foreground">Imagem principal</Label>
+        <ImageInputProps key={1} onImageChange={handleImageUpload} />
       </div>
       <div className="pt-2">
         <span className="text-muted-foreground">{message}</span>
