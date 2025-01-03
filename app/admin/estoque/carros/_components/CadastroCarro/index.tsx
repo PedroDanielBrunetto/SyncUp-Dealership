@@ -154,374 +154,396 @@ export default function CadastroVeiculoForm(
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {/* Modelo */}
-      <div>
-        <Label className="text-muted-foreground">Modelo</Label>
-        <Input
-          name="modelo"
-          placeholder="Modelo"
-          value={formData.modelo}
-          onChange={handleChange}
-          maxLength={60}
-        />
-      </div>
-      {/* Tipo Modelo */}
-      <div>
-        <Label className="text-muted-foreground">Tipo de Modelo</Label>
-        <Select
-          onValueChange={(value) => handleSelectChange("tipoModelo", value)}
-          value={formData.tipoModelo}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Selecione o tipo de modelo" />
-          </SelectTrigger>
-          <SelectContent>
-            {TipoModelo.map((tp_model) => (
-              <SelectItem key={tp_model.value} value={tp_model.value}>
-                {tp_model.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-      {/* Versão */}
-      <div>
-        <Label className="text-muted-foreground">Versão</Label>
-        <Input
-          name="versao"
-          placeholder="Versão"
-          value={formData.versao}
-          onChange={handleChange}
-          maxLength={120}
-        />
-      </div>
-      {/* Marca */}
-      <div>
-        <Label className="text-muted-foreground">Marca</Label>
-        {!otherBrand ? (
+      <section className="grid lg:grid-cols-2 grid-cols-1 gap-2">
+        {/* Modelo */}
+        <div>
+          <Label className="text-muted-foreground">Modelo</Label>
+          <Input
+            name="modelo"
+            placeholder="Modelo"
+            value={formData.modelo}
+            onChange={handleChange}
+            maxLength={60}
+          />
+        </div>
+        {/* Tipo Modelo */}
+        <div>
+          <Label className="text-muted-foreground">Tipo de Modelo</Label>
           <Select
-            onValueChange={(value) => handleSelectChange("marca", value)}
-            value={formData.marca}
+            onValueChange={(value) => handleSelectChange("tipoModelo", value)}
+            value={formData.tipoModelo}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Selecione a Marca" />
+              <SelectValue placeholder="Selecione o tipo de modelo" />
             </SelectTrigger>
             <SelectContent>
-              {carBrandsData.carBrands.map((brand) => (
-                <SelectItem key={brand} value={brand}>
-                  {brand}
+              {TipoModelo.map((tp_model) => (
+                <SelectItem key={tp_model.value} value={tp_model.value}>
+                  {tp_model.label}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
-        ) : (
+        </div>
+      </section>
+      <section className="grid lg:grid-cols-2 grid-cols-1 gap-2">
+        {/* Versão */}
+        <div>
+          <Label className="text-muted-foreground">Versão</Label>
           <Input
-            name="marca"
-            placeholder="Escreva a Marca"
-            value={formData.marca}
+            name="versao"
+            placeholder="Versão"
+            value={formData.versao}
             onChange={handleChange}
             maxLength={120}
           />
-        )}
-        <div className="flex items-center gap-1 pt-2">
-          <Label className="text-muted-foreground">Escrever a Marca</Label>
-          <Switch
-            checked={otherBrand}
-            onCheckedChange={handleSwitchChange("brand")}
-          />
         </div>
-      </div>
-      {/* Valor */}
-      <div>
-        <Label className="text-muted-foreground">Valor</Label>
-        <Input
-          name="valor"
-          placeholder="Valor"
-          value={formData.valor}
-          onChange={(e) => {
-            const rawValue = e.target.value.replace(/[^\d]/g, "");
-            const formattedValue = formatCurrency(rawValue);
-            setFormData((prev) => ({
-              ...prev,
-              valor: formattedValue,
-            }));
-          }}
-        />
-      </div>
-      {/* Ano Fabricação */}
-      <div>
-        <Label className="text-muted-foreground">Ano de Fabricação</Label>
-        <Input
-          type="number"
-          name="anoFab"
-          placeholder="Ano de Fabricação"
-          value={formData.anoFab}
-          onChange={handleChange}
-          min={0}
-          max={3000}
-        />
-      </div>
-      {/* Ano Modelo */}
-      <div>
-        <Label className="text-muted-foreground">Ano do Modelo</Label>
-        <Input
-          type="number"
-          name="anoMod"
-          placeholder="Ano do Modelo"
-          value={formData.anoMod}
-          onChange={handleChange}
-          min={0}
-          max={3000}
-        />
-      </div>
-      {/* Hodômetro */}
-      <div>
-        <Label className="text-muted-foreground">Hodômetro</Label>
-        <Input
-          type="number"
-          name="hodometro"
-          placeholder="Hodômetro"
-          value={formData.hodometro}
-          onChange={handleChange}
-          min={0}
-          max={9999999}
-        />
-      </div>
-      {/* Detalhes */}
-      <div>
-        <Label className="text-muted-foreground">Detalhes</Label>
-        <Textarea
-          name="detalhes"
-          placeholder="Detalhes que deseja informar, podendo escrever sobre o veículo ou colocar sua ficha técnica."
-          value={formData.detalhes}
-          onChange={handleChange}
-        />
-      </div>
-      {/* Número de Portas */}
-      <div>
-        <Label className="text-muted-foreground">Número de Portas</Label>
-        <Input
-          type="number"
-          name="portas"
-          placeholder="Número de Portas"
-          value={formData.portas}
-          onChange={handleChange}
-        />
-      </div>
-      {/* Número de Lugares */}
-      <div>
-        <Label className="text-muted-foreground">Número de Lugares</Label>
-        <Input
-          type="number"
-          name="lugares"
-          placeholder="Número de Lugares"
-          value={formData.lugares}
-          onChange={handleChange}
-        />
-      </div>
-      {/* Placa */}
-      <div>
-        <Label className="text-muted-foreground">Placa</Label>
-        <Input
-          name="placa"
-          placeholder="Placa"
-          value={formData.placa}
-          onChange={handleChange}
-          maxLength={10}
-        />
-      </div>
-      {/* Tipo Combustível */}
-      <div>
-        <Label className="text-muted-foreground">Tipo de Combustível</Label>
-        <Select
-          onValueChange={(value) => handleSelectChange("combustivel", value)}
-          value={formData.combustivel}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Selecione o Tipo de Combustível" />
-          </SelectTrigger>
-          <SelectContent>
-            {combustiveis.map((fuel) => (
-              <SelectItem key={fuel.value} value={fuel.value}>
-                {fuel.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-      {/* Tipo Transmissão */}
-      <div>
-        <Label className="text-muted-foreground">Tipo de Transmissão</Label>
-        <Select
-          onValueChange={(value) => handleSelectChange("transmissao", value)}
-          value={formData.transmissao}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Selecione a Transmissão" />
-          </SelectTrigger>
-          <SelectContent>
-            {transmissoes.map((trans) => (
-              <SelectItem key={trans.value} value={trans.value}>
-                {trans.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-      {/* Número de Velocidades */}
-      <div>
-        <Label className="text-muted-foreground">
-          Número de Velocidades do Veículo
-        </Label>
-        <Input
-          type="number"
-          name="velocidades"
-          placeholder="Número de Velocidades do Veículo"
-          value={formData.velocidades}
-          onChange={handleChange}
-        />
-      </div>
-      {/* Ar Condicionado; Blindagem; Tipo Blindagem */}
-      <div className="flex gap-2 lg:flex-row flex-col">
-        <div className="flex gap-1 items-center">
-          <Label className="text-muted-foreground">Ar Condicionado</Label>
-          <Switch
-            checked={formData.arCondicionado}
-            onCheckedChange={handleSwitchChange("arCondicionado")}
-          />
-        </div>
-        <div className="flex gap-1 items-center">
-          <Label className="text-muted-foreground">Blindagem</Label>
-          <Switch
-            checked={formData.blindagem}
-            onCheckedChange={handleSwitchChange("blindagem")}
-          />
-        </div>
+        {/* Marca */}
         <div>
+          <Label className="text-muted-foreground">Marca</Label>
+          {!otherBrand ? (
+            <Select
+              onValueChange={(value) => handleSelectChange("marca", value)}
+              value={formData.marca}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Selecione a Marca" />
+              </SelectTrigger>
+              <SelectContent>
+                {carBrandsData.carBrands.map((brand) => (
+                  <SelectItem key={brand} value={brand}>
+                    {brand}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          ) : (
+            <Input
+              name="marca"
+              placeholder="Escreva a Marca"
+              value={formData.marca}
+              onChange={handleChange}
+              maxLength={120}
+            />
+          )}
+          <div className="flex items-center gap-1 pt-2">
+            <Label className="text-muted-foreground">Escrever a Marca</Label>
+            <Switch
+              checked={otherBrand}
+              onCheckedChange={handleSwitchChange("brand")}
+            />
+          </div>
+        </div>
+      </section>
+      <section className="grid lg:grid-cols-2 grid-cols-1 gap-2">
+        {/* Valor */}
+        <div>
+          <Label className="text-muted-foreground">Valor</Label>
+          <Input
+            name="valor"
+            placeholder="Valor"
+            value={formData.valor}
+            onChange={(e) => {
+              const rawValue = e.target.value.replace(/[^\d]/g, "");
+              const formattedValue = formatCurrency(rawValue);
+              setFormData((prev) => ({
+                ...prev,
+                valor: formattedValue,
+              }));
+            }}
+          />
+        </div>
+        {/* Ano Fabricação */}
+        <div>
+          <Label className="text-muted-foreground">Ano de Fabricação</Label>
+          <Input
+            type="number"
+            name="anoFab"
+            placeholder="Ano de Fabricação"
+            value={formData.anoFab}
+            onChange={handleChange}
+            min={0}
+            max={3000}
+          />
+        </div>
+      </section>
+      <section className="grid lg:grid-cols-2 grid-cols-1 gap-2">
+        {/* Ano Modelo */}
+        <div>
+          <Label className="text-muted-foreground">Ano do Modelo</Label>
+          <Input
+            type="number"
+            name="anoMod"
+            placeholder="Ano do Modelo"
+            value={formData.anoMod}
+            onChange={handleChange}
+            min={0}
+            max={3000}
+          />
+        </div>
+        {/* Hodômetro */}
+        <div>
+          <Label className="text-muted-foreground">Hodômetro</Label>
+          <Input
+            type="number"
+            name="hodometro"
+            placeholder="Hodômetro"
+            value={formData.hodometro}
+            onChange={handleChange}
+            min={0}
+            max={9999999}
+          />
+        </div>
+      </section>
+      <section className="grid lg:grid-cols-2 grid-cols-1 gap-2">
+        {/* Detalhes */}
+        <div>
+          <Label className="text-muted-foreground">Detalhes</Label>
+          <Textarea
+            name="detalhes"
+            placeholder="Detalhes que deseja informar, podendo escrever sobre o veículo ou colocar sua ficha técnica."
+            value={formData.detalhes}
+            onChange={handleChange}
+          />
+        </div>
+        {/* Número de Portas */}
+        <div>
+          <Label className="text-muted-foreground">Número de Portas</Label>
+          <Input
+            type="number"
+            name="portas"
+            placeholder="Número de Portas"
+            value={formData.portas}
+            onChange={handleChange}
+          />
+        </div>
+      </section>
+      <section className="grid lg:grid-cols-2 grid-cols-1 gap-2">
+        {/* Número de Lugares */}
+        <div>
+          <Label className="text-muted-foreground">Número de Lugares</Label>
+          <Input
+            type="number"
+            name="lugares"
+            placeholder="Número de Lugares"
+            value={formData.lugares}
+            onChange={handleChange}
+          />
+        </div>
+        {/* Placa */}
+        <div>
+          <Label className="text-muted-foreground">Placa</Label>
+          <Input
+            name="placa"
+            placeholder="Placa"
+            value={formData.placa}
+            onChange={handleChange}
+            maxLength={10}
+          />
+        </div>
+      </section>
+      <section className="grid lg:grid-cols-2 grid-cols-1 gap-2">
+        {/* Tipo Combustível */}
+        <div>
+          <Label className="text-muted-foreground">Tipo de Combustível</Label>
           <Select
-            onValueChange={(value) =>
-              handleSelectChange("tipoBlindagem", value)
-            }
-            value={formData.tipoBlindagem}
-            disabled={!formData.blindagem}
+            onValueChange={(value) => handleSelectChange("combustivel", value)}
+            value={formData.combustivel}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Selecione a Blindagem" />
+              <SelectValue placeholder="Selecione o Tipo de Combustível" />
             </SelectTrigger>
             <SelectContent>
-              {TipoBlindagem.map((blin) => (
-                <SelectItem key={blin.value} value={blin.value}>
-                  {blin.label}
+              {combustiveis.map((fuel) => (
+                <SelectItem key={fuel.value} value={fuel.value}>
+                  {fuel.label}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
-      </div>
-      {/* Tipo Tração */}
-      <div>
-        <Label className="text-muted-foreground">Tipo de Tração</Label>
-        <Select
-          onValueChange={(value) => handleSelectChange("tracao", value)}
-          value={formData.tracao}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Selecione a Tração" />
-          </SelectTrigger>
-          <SelectContent>
-            {Tracao.map((trac) => (
-              <SelectItem key={trac.value} value={trac.value}>
-                {trac.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-      {/* Capacidade do Porta Malas */}
-      <div>
-        <Label className="text-muted-foreground">
-          Capacidade do Porta Malas em Litros
-        </Label>
-        <Input
-          type="number"
-          name="portaMalas"
-          placeholder="Capacidade do Porta Malas em Litros"
-          value={formData.portaMalas}
-          onChange={handleChange}
-        />
-      </div>
-      {/* Capacidade do Tanque */}
-      <div>
-        <Label className="text-muted-foreground">
-          Capacidade do Tanque em Litros
-        </Label>
-        <Input
-          type="number"
-          name="capacidadeTanque"
-          placeholder="Capacidade do Tanque em Litros"
-          value={formData.capacidadeTanque}
-          onChange={handleChange}
-        />
-      </div>
-      {/* Peso do Veículo */}
-      <div>
-        <Label className="text-muted-foreground">Peso do Veículo em KG</Label>
-        <Input
-          type="number"
-          name="pesoVeiculo"
-          placeholder="Peso do Veículo em KG"
-          value={formData.pesoVeiculo}
-          onChange={handleChange}
-        />
-      </div>
-      {/* Cor do Veículo */}
-      <div>
-        <Label className="text-muted-foreground">Cor do Veículo</Label>
-        <Input
-          name="cor"
-          placeholder="Cor do Veículo"
-          value={formData.cor}
-          onChange={handleChange}
-          maxLength={60}
-        />
-      </div>
-      {/* Bancos do Veículo */}
-      <div>
-        <Label className="text-muted-foreground">
-          Detalhe os Bancos do Veículo
-        </Label>
-        <Input
-          name="bancos"
-          placeholder="Detalhe os bancos do veículo"
-          value={formData.bancos}
-          onChange={handleChange}
-          maxLength={60}
-        />
-      </div>
-      {/* Cavalos */}
-      <div>
-        <Label className="text-muted-foreground">Potência em Cavalos</Label>
-        <Input
-          type="number"
-          name="cavalos"
-          placeholder="Potência em Cavalos"
-          value={formData.cavalos}
-          onChange={handleChange}
-        />
-      </div>
-      {/* Velocidade Máxima */}
-      <div>
-        <Label className="text-muted-foreground">
-          Velocidade Máxima do Veículo em KM/H
-        </Label>
-        <Input
-          type="number"
-          name="velocidadeMax"
-          placeholder="Velocidade Máxima do Veículo em KM/H"
-          value={formData.velocidadeMax}
-          onChange={handleChange}
-        />
-      </div>
+        {/* Tipo Transmissão */}
+        <div>
+          <Label className="text-muted-foreground">Tipo de Transmissão</Label>
+          <Select
+            onValueChange={(value) => handleSelectChange("transmissao", value)}
+            value={formData.transmissao}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Selecione a Transmissão" />
+            </SelectTrigger>
+            <SelectContent>
+              {transmissoes.map((trans) => (
+                <SelectItem key={trans.value} value={trans.value}>
+                  {trans.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </section>
+      <section className="grid lg:grid-cols-2 grid-cols-1 gap-2">
+        {/* Número de Velocidades */}
+        <div>
+          <Label className="text-muted-foreground">
+            Número de Velocidades do Veículo
+          </Label>
+          <Input
+            type="number"
+            name="velocidades"
+            placeholder="Número de Velocidades do Veículo"
+            value={formData.velocidades}
+            onChange={handleChange}
+          />
+        </div>
+        {/* Ar Condicionado; Blindagem; Tipo Blindagem */}
+        <div className="flex gap-2 lg:flex-row flex-col">
+          <div className="flex gap-1 items-center">
+            <Label className="text-muted-foreground">Ar Condicionado</Label>
+            <Switch
+              checked={formData.arCondicionado}
+              onCheckedChange={handleSwitchChange("arCondicionado")}
+            />
+          </div>
+          <div className="flex gap-1 items-center">
+            <Label className="text-muted-foreground">Blindagem</Label>
+            <Switch
+              checked={formData.blindagem}
+              onCheckedChange={handleSwitchChange("blindagem")}
+            />
+            <Select
+              onValueChange={(value) =>
+                handleSelectChange("tipoBlindagem", value)
+              }
+              value={formData.tipoBlindagem}
+              disabled={!formData.blindagem}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Selecione a Blindagem" />
+              </SelectTrigger>
+              <SelectContent>
+                {TipoBlindagem.map((blin) => (
+                  <SelectItem key={blin.value} value={blin.value}>
+                    {blin.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      </section>
+      <section className="grid lg:grid-cols-2 grid-cols-1 gap-2">
+        {/* Tipo Tração */}
+        <div>
+          <Label className="text-muted-foreground">Tipo de Tração</Label>
+          <Select
+            onValueChange={(value) => handleSelectChange("tracao", value)}
+            value={formData.tracao}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Selecione a Tração" />
+            </SelectTrigger>
+            <SelectContent>
+              {Tracao.map((trac) => (
+                <SelectItem key={trac.value} value={trac.value}>
+                  {trac.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        {/* Capacidade do Porta Malas */}
+        <div>
+          <Label className="text-muted-foreground">
+            Capacidade do Porta Malas em Litros
+          </Label>
+          <Input
+            type="number"
+            name="portaMalas"
+            placeholder="Capacidade do Porta Malas em Litros"
+            value={formData.portaMalas}
+            onChange={handleChange}
+          />
+        </div>
+      </section>
+      <section className="grid lg:grid-cols-2 grid-cols-1 gap-2">
+        {/* Capacidade do Tanque */}
+        <div>
+          <Label className="text-muted-foreground">
+            Capacidade do Tanque em Litros
+          </Label>
+          <Input
+            type="number"
+            name="capacidadeTanque"
+            placeholder="Capacidade do Tanque em Litros"
+            value={formData.capacidadeTanque}
+            onChange={handleChange}
+          />
+        </div>
+        {/* Peso do Veículo */}
+        <div>
+          <Label className="text-muted-foreground">Peso do Veículo em KG</Label>
+          <Input
+            type="number"
+            name="pesoVeiculo"
+            placeholder="Peso do Veículo em KG"
+            value={formData.pesoVeiculo}
+            onChange={handleChange}
+          />
+        </div>
+      </section>
+      <section className="grid lg:grid-cols-2 grid-cols-1 gap-2">
+        {/* Cor do Veículo */}
+        <div>
+          <Label className="text-muted-foreground">Cor do Veículo</Label>
+          <Input
+            name="cor"
+            placeholder="Cor do Veículo"
+            value={formData.cor}
+            onChange={handleChange}
+            maxLength={60}
+          />
+        </div>
+        {/* Bancos do Veículo */}
+        <div>
+          <Label className="text-muted-foreground">
+            Detalhe os Bancos do Veículo
+          </Label>
+          <Input
+            name="bancos"
+            placeholder="Detalhe os bancos do veículo"
+            value={formData.bancos}
+            onChange={handleChange}
+            maxLength={60}
+          />
+        </div>
+      </section>
+      <section className="grid lg:grid-cols-2 grid-cols-1 gap-2">
+        {/* Cavalos */}
+        <div>
+          <Label className="text-muted-foreground">Potência em Cavalos</Label>
+          <Input
+            type="number"
+            name="cavalos"
+            placeholder="Potência em Cavalos"
+            value={formData.cavalos}
+            onChange={handleChange}
+          />
+        </div>
+        {/* Velocidade Máxima */}
+        <div>
+          <Label className="text-muted-foreground">
+            Velocidade Máxima do Veículo em KM/H
+          </Label>
+          <Input
+            type="number"
+            name="velocidadeMax"
+            placeholder="Velocidade Máxima do Veículo em KM/H"
+            value={formData.velocidadeMax}
+            onChange={handleChange}
+          />
+        </div>
+      </section>
       {/* Status Venda */}
       <div>
         <Label className="text-muted-foreground">Status da Venda</Label>
