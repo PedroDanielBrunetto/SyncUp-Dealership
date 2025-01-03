@@ -20,7 +20,7 @@ import { IFiltersFieldsEstoquePayload } from "@/utils/interfaces/IFiltersFieldsE
 import { CheckCheck } from "lucide-react";
 import { useState } from "react";
 
-export default function FiltersFieldsEstoqueAdmin({ onChangeFilters }: any) {
+export default function ListEstoqueWithFiltersAdmin({ onChangeFilters }: any) {
   const [filters, setFilters] = useState({
     placa: "",
     modelo: "",

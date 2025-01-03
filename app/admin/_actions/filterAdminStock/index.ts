@@ -2,6 +2,7 @@
 
 import { db } from "@/lib/prisma";
 import { IFiltersFieldsEstoquePayload } from "@/utils/interfaces/IFiltersFieldsEstoquePayload";
+import { Decimal } from "@prisma/client/runtime/library";
 
 export const filterAdminStockAsync = async (
   filters: IFiltersFieldsEstoquePayload
@@ -32,13 +33,32 @@ export const filterAdminStockAsync = async (
         lte: Number(filters.valorAte),
       };
 
-    const items = await db.carro.findMany({
+    let items = null;
+    const data = await db.carro.findMany({
       where: whereClause,
     });
+    items = data.map((item) => ({
+      ...item,
+      valor:
+        item.valor instanceof Decimal
+          ? item.valor
+              .toNumber()
+              .toFixed(2)
+              .replace(".", ",")
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ".") // Adiciona pontos como separadores de milhar
+          : item.valor,
+    }));
 
-    return items;
+    return {
+      status: true,
+      items: items,
+      message:
+        items.length > 0 ? "" : "Não possui veículos com essa descrição.",
+    };
   } catch (error) {
-    console.error("Error in filterAdminStockAsync:", error);
-    throw new Error("Failed to filter stock");
+    return {
+      status: false,
+      message: error,
+    };
   }
 };

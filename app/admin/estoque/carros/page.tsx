@@ -21,7 +21,7 @@ import { auth } from "@clerk/nextjs/server";
 import { Decimal } from "@prisma/client/runtime/library";
 import { ChevronRight } from "lucide-react";
 import { redirect } from "next/navigation";
-import FiltersFieldsEstoqueAdmin from "./_components/FiltersFields";
+import ListEstoqueWithFiltersAdmin from "./_components/ListEstoqueWithFilters";
 
 export default async function adminEstoqueCarros() {
   const { userId } = await auth();
@@ -80,7 +80,7 @@ export default async function adminEstoqueCarros() {
               </a>
             </div>
             <div>
-              <FiltersFieldsEstoqueAdmin />
+              <ListEstoqueWithFiltersAdmin />
             </div>
             <div className="grid auto-rows-min gap-4 lg:grid-cols-4 md:grid-cols-3 items-center">
               {items
