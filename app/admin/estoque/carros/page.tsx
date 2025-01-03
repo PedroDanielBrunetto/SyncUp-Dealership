@@ -29,7 +29,6 @@ export default async function adminEstoqueCarros() {
     redirect("/admin/login");
   }
 
-  let itemsFiltered = null;
   let items = null;
   try {
     const data = await db.carro.findMany();
@@ -80,28 +79,7 @@ export default async function adminEstoqueCarros() {
               </a>
             </div>
             <div>
-              <ListEstoqueWithFiltersAdmin />
-            </div>
-            <div className="grid auto-rows-min gap-4 lg:grid-cols-4 md:grid-cols-3 items-center">
-              {items
-                ? items.map((item) => (
-                    <CardEstoque
-                      key={item.id}
-                      admin={true}
-                      avatar={item?.avatar}
-                      modelo={item.modelo}
-                      marca={item.marca}
-                      anoFab={item.anoFab}
-                      anoMod={item.anoMod}
-                      hodometro={item.hodometro}
-                      valor={item.valor}
-                      placa={item.placa}
-                      public_id={item.public_id}
-                    />
-                  ))
-                : Array.from({ length: 8 }).map((_, index) => (
-                    <SkeletonCard key={index} />
-                  ))}
+              <ListEstoqueWithFiltersAdmin initialData={items} />
             </div>
           </section>
         </div>

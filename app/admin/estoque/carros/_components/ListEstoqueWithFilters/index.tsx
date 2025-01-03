@@ -1,5 +1,7 @@
 "use client";
 
+import CardEstoque from "@/app/_components/estoque/CardEstoque";
+import SkeletonCard from "@/app/_components/estoque/SkeletonCard";
 import { filterAdminStockAsync } from "@/app/admin/_actions/filterAdminStock";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,10 +19,31 @@ import { formatCurrency } from "@/utils/functions/formatCurrency";
 import { generateFiltersFieldsEstoquePayload } from "@/utils/functions/generateFiltersFieldsEstoquePayload";
 import { verifyFilterFieldsEstoque } from "@/utils/functions/verifyFilterFieldsEstoque";
 import { IFiltersFieldsEstoquePayload } from "@/utils/interfaces/IFiltersFieldsEstoquePayload";
-import { CheckCheck } from "lucide-react";
+import { CheckCheck, Eraser, X } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
-export default function ListEstoqueWithFiltersAdmin({ onChangeFilters }: any) {
+interface ItemEstoque {
+  valor: string;
+  id: number;
+  public_id: string;
+  modelo: string;
+  tipoModelo: string;
+  versao: string;
+  marca: string;
+  anoFab: number;
+  anoMod: number;
+  hodometro: number;
+}
+
+interface ListEstoqueWithFiltersAdminProps {
+  initialData: ItemEstoque[] | null;
+}
+
+export default function ListEstoqueWithFiltersAdmin({
+  initialData,
+}: ListEstoqueWithFiltersAdminProps) {
+  const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState({
     placa: "",
     modelo: "",
@@ -32,6 +55,7 @@ export default function ListEstoqueWithFiltersAdmin({ onChangeFilters }: any) {
     valorDe: "",
     valorAte: "",
   });
+  const [itemsFiltered, setItemsFiltered] = useState<any>([]);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -61,15 +85,47 @@ export default function ListEstoqueWithFiltersAdmin({ onChangeFilters }: any) {
   };
 
   const handleFilter = async () => {
-    const payload: IFiltersFieldsEstoquePayload =
-      generateFiltersFieldsEstoquePayload(filters);
+    try {
+      setLoading(true);
 
-    const verifyFields = verifyFilterFieldsEstoque(payload);
-    if (verifyFields != true) return;
+      const payload: IFiltersFieldsEstoquePayload =
+        generateFiltersFieldsEstoquePayload(filters);
 
-    const res = await filterAdminStockAsync(payload);
+      const verifyFields = verifyFilterFieldsEstoque(payload);
+      if (verifyFields != true) return;
 
-    console.log(res);
+      const res = await filterAdminStockAsync(payload);
+
+      if (res.message != "")
+        toast("Sem resultados", {
+          description: "Nenhum resultado encontrado.",
+          action: {
+            label: <X />,
+            onClick: () => console.log("SyncUp Brasil. www.syncupbrasil.tech"),
+          },
+        });
+
+      setItemsFiltered(res.items);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleClean = () => {
+    setFilters({
+      placa: "",
+      modelo: "",
+      tipoModelo: "",
+      arCondicionado: false,
+      blindagem: false,
+      anoDe: "",
+      anoAte: "",
+      valorDe: "",
+      valorAte: "",
+    });
+    setItemsFiltered([]);
   };
 
   return (
@@ -185,10 +241,58 @@ export default function ListEstoqueWithFiltersAdmin({ onChangeFilters }: any) {
           </div>
         </div>
       </div>
-      <div className="max-w-80 pt-4">
-        <Button type="submit" onClick={handleFilter}>
-          Aplicar filtros <CheckCheck />
+      <div className="max-w-80 pt-4 flex gap-2 items-center">
+        <Button type="submit" onClick={handleFilter} disabled={loading}>
+          {loading ? (
+            <>
+              <span className="mr-2 loader"></span> Filtrando...
+            </>
+          ) : (
+            <>
+              Aplicar Filtros <CheckCheck className="ml-2" />
+            </>
+          )}
         </Button>
+        <button className="text-muted-foreground" onClick={handleClean}>
+          <Eraser />
+        </button>
+      </div>
+      <div className="grid auto-rows-min gap-4 lg:grid-cols-4 md:grid-cols-3 items-center pt-8">
+        {itemsFiltered.length > 0
+          ? itemsFiltered.map((item: any) => (
+              <CardEstoque
+                key={item.id}
+                admin={true}
+                avatar={item?.avatar}
+                modelo={item.modelo}
+                marca={item.marca}
+                anoFab={item.anoFab}
+                anoMod={item.anoMod}
+                hodometro={item.hodometro}
+                valor={item.valor}
+                placa={item.placa}
+                public_id={item.public_id}
+              />
+            ))
+          : initialData
+          ? initialData.map((item: any) => (
+              <CardEstoque
+                key={item.id}
+                admin={true}
+                avatar={item?.avatar}
+                modelo={item.modelo}
+                marca={item.marca}
+                anoFab={item.anoFab}
+                anoMod={item.anoMod}
+                hodometro={item.hodometro}
+                valor={item.valor}
+                placa={item.placa}
+                public_id={item.public_id}
+              />
+            ))
+          : Array.from({ length: 8 }).map((_, index) => (
+              <SkeletonCard key={index} />
+            ))}
       </div>
     </section>
   );

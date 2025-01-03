@@ -19,6 +19,7 @@ export const filterAdminStockAsync = async (
 
     if (filters.arCondicionado !== undefined && filters.arCondicionado)
       whereClause.arCondicionado = filters.arCondicionado;
+
     if (filters.blindagem !== undefined && filters.blindagem)
       whereClause.blindagem = filters.blindagem;
 
