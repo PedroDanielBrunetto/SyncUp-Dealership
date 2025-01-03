@@ -50,6 +50,7 @@ export const upsertCarroAsync = async (
       create: {
         ...payload,
         createdBy: `${firstName} ${lastName}`,
+        updatedBy: `${firstName} ${lastName}`,
       },
       where: { public_id: public_id ?? "" },
     });
