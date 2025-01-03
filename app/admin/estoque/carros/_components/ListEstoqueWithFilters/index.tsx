@@ -14,6 +14,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { TipoModelo } from "@/utils/constants/CadastroCarroForm";
 import { formatCurrency } from "@/utils/functions/formatCurrency";
 import { generateFiltersFieldsEstoquePayload } from "@/utils/functions/generateFiltersFieldsEstoquePayload";
@@ -44,6 +50,7 @@ export default function ListEstoqueWithFiltersAdmin({
   initialData,
 }: ListEstoqueWithFiltersAdminProps) {
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
   const [filters, setFilters] = useState({
     placa: "",
     modelo: "",
@@ -92,7 +99,10 @@ export default function ListEstoqueWithFiltersAdmin({
         generateFiltersFieldsEstoquePayload(filters);
 
       const verifyFields = verifyFilterFieldsEstoque(payload);
-      if (verifyFields != true) return;
+      if (verifyFields != true) {
+        setMessage(verifyFields);
+        return;
+      }
 
       const res = await filterAdminStockAsync(payload);
 
@@ -110,6 +120,9 @@ export default function ListEstoqueWithFiltersAdmin({
       console.error(error);
     } finally {
       setLoading(false);
+      setTimeout(() => {
+        setMessage("");
+      }, 2000);
     }
   };
 
@@ -241,7 +254,7 @@ export default function ListEstoqueWithFiltersAdmin({
           </div>
         </div>
       </div>
-      <div className="max-w-80 pt-4 flex gap-2 items-center">
+      <div className="max-w-80 pt-4 pb-2 flex gap-2 items-center">
         <Button type="submit" onClick={handleFilter} disabled={loading}>
           {loading ? (
             <>
@@ -253,11 +266,21 @@ export default function ListEstoqueWithFiltersAdmin({
             </>
           )}
         </Button>
-        <button className="text-muted-foreground" onClick={handleClean}>
-          <Eraser />
-        </button>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button className="text-muted-foreground" onClick={handleClean}>
+                <Eraser />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Limpar Filtros</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
-      <div className="grid auto-rows-min gap-4 lg:grid-cols-4 md:grid-cols-3 items-center pt-8">
+      <span className="text-muted-foreground text-sm">{message}</span>
+      <div className="grid auto-rows-min gap-4 lg:grid-cols-4 md:grid-cols-3 items-center pt-6">
         {itemsFiltered.length > 0
           ? itemsFiltered.map((item: any) => (
               <CardEstoque

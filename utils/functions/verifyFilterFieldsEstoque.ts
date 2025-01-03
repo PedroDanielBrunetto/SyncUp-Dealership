@@ -14,6 +14,6 @@ export function verifyFilterFieldsEstoque(
     !payload.arCondicionado &&
     !payload.blindagem
   )
-    return "Você deve pelo menos preencher algo.";
+    return "Você deve pelo menos preencher um campo.";
   else return true;
 }

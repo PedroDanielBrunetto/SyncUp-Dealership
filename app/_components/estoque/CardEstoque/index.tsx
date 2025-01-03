@@ -26,7 +26,7 @@ export default function CardEstoque({
   admin,
 }: ICardEstoqueProps) {
   return (
-    <div className="w-full max-w-xs p-4 flex flex-col gap-4 border border-gray-400 rounded-xl">
+    <div className="w-full max-w-xs p-4 flex flex-col gap-4 border border-gray-300 rounded-xl">
       <div className="h-48 w-full bg-gray-200 rounded-lg overflow-hidden">
         <img
           src={avatar || "/placeholder-image.png"}
