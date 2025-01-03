@@ -32,7 +32,7 @@ export const upsertCarroAsync = async (
       },
     });
 
-    if (existingCar?.placa == payload.placa)
+    if (!public_id && existingCar?.placa == payload.placa)
       throw new Error("Placa cadastrada em outro veículo.");
 
     if (pack.file && existingCar?.avatar) {

@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, PenBox } from "lucide-react";
 import ImageInputProps from "@/app/_components/ImageInputProps";
+import { upsertCarroAsync } from "@/app/admin/_actions/upsertCarro";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -15,53 +16,55 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import {
-  combustiveis,
-  StatusVenda,
-  TipoBlindagem,
-  TipoModelo,
-  Tracao,
-  transmissoes,
-} from "@/utils/constants/CadastroCarroForm";
 import { generateCadastroCarroPayload } from "@/utils/functions/generateCadastroCarroPayload";
 import { verifyCadastroCarroFields } from "@/utils/functions/verifyCadastroCarroFields";
 import { formatCurrency } from "@/utils/functions/formatCurrency";
 import { ICadastroCarroPayload } from "@/utils/interfaces/ICadastroCarroPayload";
 import carBrandsData from "@/utils/carBrands.json";
-import { upsertCarroAsync } from "@/app/admin/_actions/upsertCarro";
+import {
+  combustiveis,
+  transmissoes,
+  StatusVenda,
+  TipoBlindagem,
+  TipoModelo,
+  Tracao,
+} from "@/utils/constants/CadastroCarroForm";
+import { IAdminCadastroCarroFormProps } from "@/utils/interfaces/IAdminCadastroCarroFormProps";
 
-export default function CadastroVeiculoForm(props: any) {
+export default function CadastroVeiculoForm(
+  props?: IAdminCadastroCarroFormProps
+) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [otherBrand, setOtherBrand] = useState(false);
+  const [otherBrand, setOtherBrand] = useState(props?.att ? true : false);
   const [formData, setFormData] = useState({
-    modelo: "",
-    tipoModelo: "",
-    versao: "",
-    marca: "",
-    valor: "",
-    anoFab: "",
-    anoMod: "",
-    hodometro: "",
-    detalhes: "",
-    portas: "",
-    lugares: "",
-    placa: "",
-    combustivel: "",
-    transmissao: "",
-    velocidades: "",
-    arCondicionado: false,
-    blindagem: false,
-    tipoBlindagem: "",
-    tracao: "",
-    portaMalas: "",
-    cavalos: "",
-    pesoVeiculo: "",
-    cor: "",
-    bancos: "",
-    velocidadeMax: "",
-    capacidadeTanque: "",
-    status: "",
+    modelo: props?.modelo ?? "",
+    tipoModelo: props?.tipoModelo ?? "",
+    versao: props?.versao ?? "",
+    marca: props?.marca ?? "",
+    valor: props?.valor ?? "",
+    anoFab: props?.anoFab ?? "",
+    anoMod: props?.anoMod ?? "",
+    hodometro: props?.hodometro ?? "",
+    detalhes: props?.detalhes ?? "",
+    portas: props?.portas ?? "",
+    lugares: props?.lugares ?? "",
+    placa: props?.placa ?? "",
+    combustivel: props?.combustivel ?? "",
+    transmissao: props?.transmissao ?? "",
+    velocidades: props?.velocidades ?? "",
+    arCondicionado: props?.arCondicionado ?? false,
+    blindagem: props?.blindagem ?? false,
+    tipoBlindagem: props?.tipoBlindagem ?? "",
+    tracao: props?.tracao ?? "",
+    portaMalas: props?.portaMalas ?? "",
+    cavalos: props?.cavalos ?? "",
+    pesoVeiculo: props?.pesoVeiculo ?? "",
+    cor: props?.cor ?? "",
+    bancos: props?.bancos ?? "",
+    velocidadeMax: props?.velocidadeMax ?? "",
+    capacidadeTanque: props?.capacidadeTanque ?? "",
+    status: props?.status ?? "",
   });
   const [imageData, setImageData] = useState<{
     fileName: string;
@@ -115,7 +118,11 @@ export default function CadastroVeiculoForm(props: any) {
     const payload: ICadastroCarroPayload =
       generateCadastroCarroPayload(formData);
 
-    const verifyFields = verifyCadastroCarroFields(payload, imageData.file);
+    const verifyFields = verifyCadastroCarroFields(
+      payload,
+      imageData.file,
+      props?.att == undefined ? false : true
+    );
     if (verifyFields != true) {
       setMessage(verifyFields);
       return;
@@ -123,7 +130,11 @@ export default function CadastroVeiculoForm(props: any) {
 
     try {
       setLoading(true);
-      const response = await upsertCarroAsync(payload, imageData);
+      const response = await upsertCarroAsync(
+        payload,
+        imageData,
+        props?.public_id
+      );
 
       if (response.status)
         window.location.replace(
@@ -542,6 +553,10 @@ export default function CadastroVeiculoForm(props: any) {
         {loading ? (
           <>
             <span className="mr-2 loader"></span> Redirecionando...
+          </>
+        ) : props?.att ? (
+          <>
+            Atualizar Veículo <PenBox className="ml-2" />
           </>
         ) : (
           <>

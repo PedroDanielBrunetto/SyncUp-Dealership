@@ -2,7 +2,8 @@ import { ICadastroCarroPayload } from "../interfaces/ICadastroCarroPayload";
 
 export const verifyCadastroCarroFields = (
   payload: ICadastroCarroPayload,
-  file: File | null
+  file: File | null,
+  updateNotFile: boolean
 ): string | true => {
   switch (true) {
     case payload.modelo === "":
@@ -33,7 +34,7 @@ export const verifyCadastroCarroFields = (
       return "A cor é obrigatório";
     case payload.status === "":
       return "O status é obrigatório";
-    case file === null:
+    case file === null && !updateNotFile:
       return "Uma imagem principal é obrigatório";
     default:
       return true;
