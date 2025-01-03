@@ -98,41 +98,41 @@ const adminEstoqueCarrosCadastroUpdate = async ({ params }: updateCarProps) => {
                 item.updatedAt.toLocaleTimeString()}
             </span>
             <AdminCadastroCarroForm
+              key={item.id}
               public_id={itemFormatted?.public_id}
               modelo={itemFormatted?.modelo}
               tipoModelo={itemFormatted?.tipoModelo}
               versao={itemFormatted?.versao}
               marca={itemFormatted?.marca}
+              valor={itemFormatted?.valor}
               anoFab={itemFormatted?.anoFab}
               anoMod={itemFormatted?.anoMod}
-              arCondicionado={itemFormatted?.arCondicionado}
-              cavalos={itemFormatted?.cavalos}
-              combustivel={itemFormatted?.combustivel}
-              cor={itemFormatted?.cor}
-              bancos={itemFormatted?.bancos}
+              hodometro={itemFormatted?.hodometro}
+              detalhes={itemFormatted?.detalhes}
               portas={itemFormatted?.portas}
               lugares={itemFormatted?.lugares}
-              portaMalas={itemFormatted?.portaMalas}
-              blindagem={itemFormatted?.blindagem}
-              tipoBlindagem={itemFormatted?.tipoBlindagem}
-              capacidadeTanque={itemFormatted?.capacidadeTanque}
-              pesoVeiculo={itemFormatted?.pesoVeiculo}
               placa={itemFormatted?.placa}
-              valor={itemFormatted?.valor}
-              hodometro={itemFormatted?.hodometro}
+              combustivel={itemFormatted?.combustivel}
               transmissao={itemFormatted?.transmissao}
               velocidades={itemFormatted?.velocidades}
-              velocidadeMax={itemFormatted?.velocidadeMax}
+              arCondicionado={itemFormatted?.arCondicionado}
+              blindagem={itemFormatted?.blindagem}
+              tipoBlindagem={itemFormatted?.tipoBlindagem}
               tracao={itemFormatted?.tracao}
-              detalhes={itemFormatted?.status}
-              status={itemFormatted?.status}
+              portaMalas={itemFormatted?.portaMalas}
+              cavalos={itemFormatted?.cavalos}
+              pesoVeiculo={itemFormatted?.pesoVeiculo}
+              cor={itemFormatted?.cor}
+              bancos={itemFormatted?.bancos}
+              velocidadeMax={itemFormatted?.velocidadeMax}
+              capacidadeTanque={itemFormatted?.capacidadeTanque}
               avatar={itemFormatted?.avatar}
+              status={itemFormatted?.status}
               createdAt={itemFormatted?.createdAt}
-              createdBy={itemFormatted?.createdBy}
               updatedAt={itemFormatted?.updatedAt}
+              createdBy={itemFormatted?.createdBy}
               updatedBy={itemFormatted?.updatedBy}
               att={true}
-              key={item.id}
             />
           </section>
         </div>

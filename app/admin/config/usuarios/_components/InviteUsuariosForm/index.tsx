@@ -40,7 +40,7 @@ export default function AdminInviteUsuariosForm() {
           : "Tente novamente.",
         action: {
           label: <X />,
-          onClick: () => console.log("Convite enviado."),
+          onClick: () => console.log("SyncUp Brasil. www.syncupbrasil.tech"),
         },
       });
       if (!response.status) console.error(response.message);
