@@ -30,13 +30,13 @@ export default async function adminEstoqueGaleria({ params }: updateCarProps) {
 
   const { uuid } = await params;
 
-  const verifyCar = await db.carro.findUnique({
+  const car = await db.carro.findUnique({
     where: {
       public_id: uuid,
     },
   });
 
-  if (!verifyCar) redirect("/admin/estoque/carros");
+  if (!car) redirect("/admin/estoque/carros");
 
   const images: any = await db.imagensCarro.findMany({
     where: {
@@ -62,16 +62,32 @@ export default async function adminEstoqueGaleria({ params }: updateCarProps) {
               <BreadcrumbItem>
                 <BreadcrumbPage>Galeria</BreadcrumbPage>
               </BreadcrumbItem>
+              <BreadcrumbSeparator className="hidden md:block" />
+              {car && (
+                <BreadcrumbLink
+                  href={`/admin/estoque/carros/cadastro/${car.public_id}`}
+                >
+                  <BreadcrumbPage>{car.modelo}</BreadcrumbPage>
+                </BreadcrumbLink>
+              )}
             </BreadcrumbList>
           </Breadcrumb>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
           <section className="flex flex-col gap-4">
-            <h2 className="text-2xl">Galeria de Imagens</h2>
-            <p className="text-muted-foreground text-sm">
-              Você tem direito ao cadastro de 10 imagens para galeria de cada
-              veículo.
-            </p>
+            <h2 className="text-2xl">
+              Galeria de Imagens {car && `- ${car.modelo}`}
+            </h2>
+            <div>
+              <p className="text-muted-foreground text-sm">
+                Você tem direito ao cadastro de 10 imagens para galeria de cada
+                veículo.
+              </p>
+              <p className="text-muted-foreground text-xs">
+                Caso após uma atualização ser bem-sucedida, e a imagem não ser
+                exibida, recarregue a página.
+              </p>
+            </div>
             <section>
               <GaleriaForm public_id={uuid} imagesExisted={images} />
             </section>

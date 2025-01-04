@@ -115,7 +115,8 @@ export default function GaleriaForm({
                     </AlertDialogTitle>
                     <AlertDialogDescription>
                       Você tem certeza que deseja remover essa imagem da
-                      galeria? ID: {image.id}
+                      galeria? <br />
+                      ID: {image.id}
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
@@ -123,6 +124,7 @@ export default function GaleriaForm({
                     <AlertDialogAction
                       onClick={async () => {
                         await deleteFileGaleriaAsync(image.id);
+                        window.location.reload();
                       }}
                     >
                       Continuar

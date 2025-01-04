@@ -64,7 +64,7 @@ const ImageInput: React.FC<ImageInputProps> = ({ onImageChange }) => {
               />
               <button
                 type="button"
-                className="absolute top-2 right-2 text-red-600 items-center text-center text-base z-50"
+                className="absolute top-2 right-2 w-8 h-8 text-center items-center flex justify-center font-bold text-lg text-red-500 bg-white rounded-full"
                 onClick={handleRemoveImage}
               >
                 ✕
