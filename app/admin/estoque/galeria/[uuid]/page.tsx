@@ -30,6 +30,14 @@ export default async function adminEstoqueGaleria({ params }: updateCarProps) {
 
   const { uuid } = await params;
 
+  const verifyCar = await db.carro.findUnique({
+    where: {
+      public_id: uuid,
+    },
+  });
+
+  if (!verifyCar) redirect("/admin/estoque/carros");
+
   const images: any = await db.imagensCarro.findMany({
     where: {
       public_id: uuid,

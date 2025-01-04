@@ -102,7 +102,7 @@ export default function CadastroVeiculoForm(
   };
 
   const handleImageUpload = (
-    file: File,
+    file: File | null,
     filename: string,
     contentType: string
   ) => {

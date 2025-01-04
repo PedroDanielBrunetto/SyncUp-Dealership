@@ -3,32 +3,41 @@
 import { db } from "@/lib/prisma";
 import { S3StorageProvider } from "@/providers/aws/s3/S3StorageProvider";
 import { convertFileToBuffer } from "@/utils/functions/convertFileToBuffer";
+import { revalidatePath } from "next/cache";
 import path from "path";
 
 interface IInsertGaleria {
   fileName: string;
   file: File | null;
   contentType: string;
-  public_id: string;
 }
 
-export const insertFileGaleriaAsync = async (payload: IInsertGaleria) => {
+export const insertFileGaleriaAsync = async (
+  payload: IInsertGaleria,
+  public_id: string
+) => {
   try {
+    if (payload.file == null) return;
+
     const s3 = new S3StorageProvider();
     const fileBuffer = await convertFileToBuffer(payload.file);
 
-    const fileKey = `estoque/galeria/${payload.public_id}/${payload.fileName}`;
+    const fileKey = `estoque/galeria/${public_id}/${payload.fileName}`;
 
-    let newImageUrl: string = "";
-    if (payload.file != null)
-      newImageUrl = await s3.saveFile(fileKey, fileBuffer, payload.contentType);
+    const newImageUrl = await s3.saveFile(
+      fileKey,
+      fileBuffer,
+      payload.contentType
+    );
 
     await db.imagensCarro.create({
       data: {
         url: newImageUrl,
-        public_id: payload.public_id,
+        public_id: public_id,
       },
     });
+
+    revalidatePath(`/admin/estoque/galeria/${public_id}`);
 
     return {
       status: true,
@@ -61,6 +70,8 @@ export const deleteFileGaleriaAsync = async (id: number) => {
         id,
       },
     });
+
+    revalidatePath(`/admin/estoque/galeria/${imagem.public_id}`);
 
     return {
       status: true,
