@@ -1,4 +1,4 @@
-import { ChevronRight, PenBox } from "lucide-react";
+import { ChevronRight, Images, PenBox } from "lucide-react";
 
 interface ICardEstoqueProps {
   public_id: string;
@@ -52,12 +52,20 @@ export default function CardEstoque({
       </div>
       <div>
         {admin ? (
-          <a
-            href={`/admin/estoque/carros/cadastro/${public_id}`}
-            className="text-muted-foreground"
-          >
-            <PenBox />
-          </a>
+          <div className="flex gap-4 items-center">
+            <a
+              href={`/admin/estoque/carros/cadastro/${public_id}`}
+              className="text-muted-foreground"
+            >
+              <PenBox />
+            </a>
+            <a
+              href={`/admin/estoque/galeria/${public_id}`}
+              className="text-muted-foreground"
+            >
+              <Images />
+            </a>
+          </div>
         ) : (
           <a href={`/estoque/${public_id}`} className="text-muted-foreground">
             <ChevronRight />

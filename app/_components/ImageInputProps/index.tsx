@@ -4,7 +4,11 @@ import React, { useState } from "react";
 import crypto from "crypto";
 
 interface ImageInputProps {
-  onImageChange: (file: File, filename: string, contentType: string) => void;
+  onImageChange: (
+    file: File | null,
+    filename: string,
+    contentType: string
+  ) => void;
 }
 
 const ImageInput: React.FC<ImageInputProps> = ({ onImageChange }) => {
@@ -41,16 +45,31 @@ const ImageInput: React.FC<ImageInputProps> = ({ onImageChange }) => {
     onImageChange(file, filename, file.type);
   };
 
+  const handleRemoveImage = () => {
+    setPreview(null);
+    setError(null);
+    onImageChange(null, "", "");
+  };
+
   return (
     <div className="image-input">
       <label className="image-input-label">
         <div className="image-preview">
           {preview ? (
-            <img
-              src={preview}
-              alt="Preview"
-              className="object-cover h-full w-full rounded-lg lg:h-[460px] cursor-pointer"
-            />
+            <div className="relative">
+              <img
+                src={preview}
+                alt="Preview"
+                className="object-cover h-full w-full rounded-lg lg:h-[460px]"
+              />
+              <button
+                type="button"
+                className="absolute top-2 right-2 text-red-600 items-center text-center text-base z-50"
+                onClick={handleRemoveImage}
+              >
+                ✕
+              </button>
+            </div>
           ) : (
             <span className="cursor-pointer bg-gray-200 p-2 rounded-md text-sm">
               Clique para selecionar uma imagem
