@@ -70,10 +70,17 @@ export default function GaleriaForm({
   const handleCreateImage = async () => {
     try {
       setLoading(true);
+
       if (!imageData.every((img) => img.file === null)) {
-        imageData.map(async (req) => {
-          await insertFileGaleriaAsync(req, public_id);
-        });
+        // Aguarda todas as promessas
+        await Promise.all(
+          imageData.map(async (req) => {
+            if (req.file) {
+              await insertFileGaleriaAsync(req, public_id);
+            }
+          })
+        );
+
         setMessage("Imagens salvas com sucesso!");
         setTimeout(() => {
           window.location.reload();
